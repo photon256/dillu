@@ -105,7 +105,7 @@ async def upload(bot: Client, m: Message):
     
     
 
-    await editable.edit("Now Enter A Caption to add caption on your uploaded file")
+    await editable.edit("Now Enter Uploader Name")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -172,8 +172,8 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**[📽️] Vid_ID:** {str(count).zfill(3)}.** {𝗻𝗮𝗺𝗲𝟭}{MR}.mkv\n**𝔹ᴀᴛᴄʜ** » **{raw_text0}**\n**Downloaded By:** » **{MR}**'
-                cc1 = f'**[📁] Pdf_ID:** {str(count).zfill(3)}. {𝗻𝗮𝗺𝗲𝟭}{MR}.pdf \n**𝔹ᴀᴛᴄʜ** » **{raw_text0}**\n**Downloaded By:** » **{MR}**'
+                cc = f'**[📽️] Vid_ID:** {str(count).zfill(3)}.** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n **𝔹ᴀᴛᴄʜ** » **{raw_text0}**\n\n **Downloaded By:** » **{MR}**'
+                cc1 = f'**[📁] Pdf_ID:** {str(count).zfill(3)}. {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**𝔹ᴀᴛᴄʜ** » **{raw_text0}**\n\n  **Downloaded By:** » **{MR}**'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a
