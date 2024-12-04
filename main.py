@@ -81,7 +81,7 @@ async def upload(bot: Client, m: Message):
     await input1.delete(True)
     
 
-    await editable.edit("**𝔼ɴᴛᴇʀ ʀᴇ𝕤ᴏʟᴜᴛɪᴏɴ📸**\n144,240,360,480,720,1080 please choose quality")
+    await editable.edit("**Enter resolution**")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     await input2.delete(True)
@@ -105,7 +105,7 @@ async def upload(bot: Client, m: Message):
     
     
 
-    await editable.edit("Now Enter Uploader Name")
+    await editable.edit("**Caption")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -115,7 +115,7 @@ async def upload(bot: Client, m: Message):
     else:
         MR = raw_text3
    
-    await editable.edit("Now send the Thumb url \n Or if don't want thumbnail send = no")
+    await editable.edit("**Send thumbnail or no**")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
@@ -172,15 +172,15 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\nBatch Name : {raw_text0}\n\n **Downloaded By:** » **{MR}**'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**𝔹ᴀᴛᴄʜ** : **{raw_text0}**\n\n  **Downloaded By:** » **{MR}**'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\nBatch Name : {raw_text0}\n\n **Downloaded By:** : **{MR}**'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**𝔹ᴀᴛᴄʜ** : **{raw_text0}**\n\n  **Downloaded By:** : **{MR}**'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a 
                      key = k
                      try:
                       	if ".pdf" in a:
-                      		Show = f("⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}", quote = True)
+                      		Show = f(" Ｄｏｗｎｌｏａｄｉｎｇ... »\n\n📝Name » {name}\n❄Quality » {raw_text2}", quote = True)
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
@@ -189,7 +189,7 @@ async def upload(bot: Client, m: Message):
                       		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
                       		count += 1
                       	else:
-                      		Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}"
+                      		Show = f"Ｄｏｗｎｌｏａｄｉｎｇ... »\n\n📝Name » {name}\n❄Quality » {raw_text2}"
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
@@ -226,7 +226,7 @@ async def upload(bot: Client, m: Message):
                         time.sleep(e.x)
                         continue
                 else:
-                    Show = f"**⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »**\n\n**📝Name »** `{name}\n❄Quality » {raw_text2}"
+                    Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**📝Name »** `{name}\n❄Quality » {raw_text2}"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
