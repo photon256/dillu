@@ -244,7 +244,7 @@ async def upload(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(
-                    f"**downloading Interupted **\n{str(e)}\n**Name** » {name}"
+                    f"**downloading Interupted **\n{str(e)}\n**Name** » {name}\n Url:{url}"
                 )
                 continue
 
