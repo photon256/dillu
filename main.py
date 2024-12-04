@@ -172,11 +172,11 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n```Batch Name » {raw_text0}```\n\n **Downloaded By:** » **{MR}**'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**𝔹ᴀᴛᴄʜ** » **{raw_text0}**\n\n  **Downloaded By:** » **{MR}**'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n```Batch Name : {raw_text0}```\n\n **Downloaded By:** » **{MR}**'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**𝔹ᴀᴛᴄʜ** : **{raw_text0}**\n\n  **Downloaded By:** » **{MR}**'
                 if "*" in url:
                      a, k = url.split("*", 1)
-                     url = a
+                     url = a 
                      key = k
                      try:
                       	if ".pdf" in a:
