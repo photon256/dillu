@@ -52,6 +52,7 @@ async def upload(bot: Client, m: Message):
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
+    file_name, ext = os.path.splitext(os.path.basename(x))
 
     path = f"./downloads/{m.chat.id}"
 
@@ -79,6 +80,12 @@ async def upload(bot: Client, m: Message):
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
+    if raw_text0 == 'd':
+        b_name = file_name
+    else:
+        b_name = raw_text0
+    
+        
     
 
     await editable.edit("**Enter resolution**")
@@ -172,8 +179,8 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\nBatch Name : {raw_text0}\n\n **Downloaded By:** : **{MR}**'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**𝔹ᴀᴛᴄʜ** : **{raw_text0}**\n\n  **Downloaded By:** : **{MR}**'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n**Batch Name** : {b_name}\n\n **Downloaded By:** : **{MR}**'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**Batch Name** : **{b_name}**\n\n  **Downloaded By:** : **{MR}**'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a 
