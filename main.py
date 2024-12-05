@@ -143,7 +143,7 @@ async def upload(bot: Client, m: Message):
     try:
         for i in range(count - 1, len(links)):
 
-            V = links[i][1].replace("file/d/","uc?export=download&id=").replace("www.youtube-nocookie.com/embed", "youtu.be").replace("?modestbranding=1", "").replace("/view?usp=sharing","") # .replace("mpd","m3u8")
+            V = links[i][1].replace("file/d/","uc?export=download&id=").replace("www.youtube-nocookie.com/embed", "youtu.be").replace("?modestbranding=1", "").replace("/view?usp=sharing","") 
             url = "https://" + V
 
             if "visionias" in url:
@@ -162,7 +162,7 @@ async def upload(bot: Client, m: Message):
              url = a
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
-             url =  "https://madxapi-39b5d3247816.herokuapp.com/" + id + "/master.m3u8?token=abd9973e269f23abf67fc3e024749dd16366d7edaf626e2d0e6e8db8897d6259"
+             url =  "https://master-api-v2.vercel.app/pw-dl?url="+ "https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzMwMzkwMjUuMjM3LCJkYXRhIjp7Il9pZCI6IjY3NDJkOGQyZjU4MWU5NDdiZjljODgwMSIsInVzZXJuYW1lIjoiOTExNzI2NTUxOSIsImZpcnN0TmFtZSI6Ik1hbmlrIiwibGFzdE5hbWUiOiJTYWF3Iiwib3JnYW5pemF0aW9uIjp7Il9pZCI6IjVlYjM5M2VlOTVmYWI3NDY4YTc5ZDE4OSIsIndlYnNpdGUiOiJwaHlzaWNzd2FsbGFoLmNvbSIsIm5hbWUiOiJQaHlzaWNzd2FsbGFoIn0sInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczMjQzNDIyNX0.O7RNkImtsQNJT6N0WyBawiTVjAmIaj_Ya-EqF2FxTJQ&q=480&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiIsInRnX3VzZXJuYW1lIjoiTm90aGluZyAobmFtZSkiLCJpYXQiOjE3MzM0MTY2MTZ9.Db8ROL5QD_OnQOGeWZ_N5c9LdEKZLi4rvIMEktjsur0"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]}'
