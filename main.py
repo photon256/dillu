@@ -193,7 +193,7 @@ async def upload(bot: Client, m: Message):
                       		copy = helper.decrypt_file(file_path, key)
                       		filename = file_path
                       		await prog.delete(True)
-                      		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
+                      		await helper.send_document(bot, m, document=filename, caption=cc1)
                       		count += 1
                       	else:
                       		Show = f"Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName » {name}\nQuality » {raw_text2}"
