@@ -185,7 +185,7 @@ async def upload(bot: Client, m: Message):
                      key = k
                      try:
                       	if ".pdf" in a:
-                      		Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
+                      		Show = f(" Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName » {name}\nQuality » {raw_text2}", quote = True)
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
@@ -194,7 +194,7 @@ async def upload(bot: Client, m: Message):
                       		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
                       		count += 1
                       	else:
-                      		Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
+                      		Show = f"Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName » {name}\nQuality » {raw_text2}"
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
