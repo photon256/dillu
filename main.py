@@ -189,7 +189,7 @@ async def upload(bot: Client, m: Message):
                       	if ".pdf" in a:
                       		Show = f(" Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName » {name}\nQuality » {raw_text2}", quote = True)
                       		prog = await m.reply_text(Show)
-                      		file_path = await helper.download_file(url, name)
+                      		file_path = await helper.download(url, name)
                       		copy = helper.decrypt_file(file_path, key)
                       		filename = file_path
                       		await prog.delete(True)
