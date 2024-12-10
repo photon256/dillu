@@ -194,6 +194,7 @@ async def upload(bot: Client, m: Message):
                       		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
                             
                       		count += 1
+                            time.sleep(2)
                          
                                 
                                 
