@@ -194,7 +194,14 @@ async def upload(bot: Client, m: Message):
                       		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
                             
                       		count += 1
-                            time.sleep(2)
+                            except FloodWait as e:
+                                await m.reply_text(str(e))
+                                time.sleep(1)
+                                continue
+                      
+                      
+                      
+                            
                       	else:
                       		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
                       		prog = await m.reply_text(Show)
