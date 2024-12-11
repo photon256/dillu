@@ -135,8 +135,8 @@ async def upload(bot: Client, m: Message):
         thumb == "no"
 
     
-    msg = bot.send_message(m.chat.id, (f"**Batch Name: {b_name}"))
-    await bot.pin_chat_message(m.chat.id, message_id=msg.message_id)
+    await bot.send_message(m.chat.id, (f"**Batch Name: {b_name}\n\n Total Links: {len(links)} "))
+    
     if len(links) == 1:
         count = 1
     else:
