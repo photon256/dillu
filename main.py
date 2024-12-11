@@ -134,7 +134,7 @@ async def upload(bot: Client, m: Message):
     else:
         thumb == "no"
 
-    await bot.send_message(m.chat.id, ("**Batch Name: {b_name}"))
+    await bot.send_message(m.chat.id, (f"**Batch Name: {b_name}"))
     if len(links) == 1:
         count = 1
     else:
