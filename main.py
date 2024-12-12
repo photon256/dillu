@@ -137,9 +137,7 @@ async def upload(bot: Client, m: Message):
     
     
     
-    batch_message: Message = await bot.send_message(m.chat.id, f"**Batch name : {b_name}\n\n Total links :{len(links)}**")
-    await bot.message.pin(chat.id, batch_message.id)
-    message_link = batch_message.link
+    await bot.send_message(m.chat.id, f"**Batch name : {b_name}\n\n Total links :{len(links)}**")
         
         
             
