@@ -138,9 +138,12 @@ async def upload(bot: Client, m: Message):
     
     batch_message: Message = await bot.send_message(chat.id, f"**Batch name : {b_name}\n\n Total links :{len(links)}**")
         
-        try:
-            await bot.pin_chat_message(chat_id, batch_message.id)
-            message_link = batch_message.link
+        
+            
+            
+    try;
+    await bot.pin_chat_message(chat_id, batch_message.id)
+    message_link = batch_message.link
     if len(links) == 1:
         count = 1
     else:
