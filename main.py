@@ -258,10 +258,10 @@ async def upload(bot: Client, m: Message):
                         await prog.delete(True)
                         os.remove(f"{name}.pdf")
                         time.sleep(2)
-                        except Exception as e:
-                            await m.reply_text(
+                    except Exception as e:
+                        await m.reply_text(
                     f"{e}\nDownload Failed\n\nName : {name}\n\nLink : {url}")
-                            continue
+                        continue        
                 elif ".pdf" in url:
                     try:
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
