@@ -176,6 +176,8 @@ async def upload(bot: Client, m: Message):
             elif ".pdf*abcdefg" in url:
              a = url.replace('*abcdefg', '')
              url = a
+            elif '/ivs' in url:
+                url = f"https://master-api-v2.vercel.app/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJhbmphbGFqQGdtYWlsLmNvbSIsImF1ZCI6IjUyNDc0NCIsImlhdCI6MTczNDM2NDU2OCwiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSmFsYWogS2FyYW4iLCJlbWFpbCI6ImthcmFuamFsYWpAZ21haWwuY29tIiwicGhvbmUiOiI5MTI1NjAyNjU4IiwidXNlcklkIjoiYWRkYS52MS4zMTVkMGY4NDlhMTkyZTc3ZWQwMzEyNjllZmM2YTUwMyIsImxvZ2luQXBpVmVyc2lvbiI6MX0.hDBx0uZTCoUZf7ySQmugQNh2FNmcJMtIIGFXXzBvNjuht8zhKGR3gIC7kkQ_2avcfftGRB5VFXKCRYY1Au8mkw"
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
              url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
@@ -270,7 +272,7 @@ async def upload(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(
-                    f"**downloading Failed**\n{str(e)}\n**Name** » {name}"
+                    f"**downloading Failed**\n{str(e)}\n**Name** » {name}/n URL : {url}"
                 )
                 continue
 
