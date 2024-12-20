@@ -180,7 +180,7 @@ async def upload(bot: Client, m: Message):
                 url = f"https://master-api-v2.vercel.app/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJhbmphbGFqQGdtYWlsLmNvbSIsImF1ZCI6IjUyNDc0NCIsImlhdCI6MTczNDM2NDU2OCwiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSmFsYWogS2FyYW4iLCJlbWFpbCI6ImthcmFuamFsYWpAZ21haWwuY29tIiwicGhvbmUiOiI5MTI1NjAyNjU4IiwidXNlcklkIjoiYWRkYS52MS4zMTVkMGY4NDlhMTkyZTc3ZWQwMzEyNjllZmM2YTUwMyIsImxvZ2luQXBpVmVyc2lvbiI6MX0.hDBx0uZTCoUZf7ySQmugQNh2FNmcJMtIIGFXXzBvNjuht8zhKGR3gIC7kkQ_2avcfftGRB5VFXKCRYY1Au8mkw"
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
-             url =  "https://d26g5bnklkwsh4.cloudfront.net/" + id + "/master.m3u8"
+             url =  "https://master-api-v2.vercel.app/pw-dl?url="+ "https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUzMTA1NzkuNDYyLCJkYXRhIjp7Il9pZCI6IjYyOTc2ZjA1YmRjYzc4MDAxYWZmNmM4NyIsInVzZXJuYW1lIjoiNzkwMzIxMDY5NSIsImZpcnN0TmFtZSI6IkhhcnNoIiwibGFzdE5hbWUiOiJSYWoiLCJvcmdhbml6YXRpb24iOnsiX2lkIjoiNWViMzkzZWU5NWZhYjc0NjhhNzlkMTg5Iiwid2Vic2l0ZSI6InBoeXNpY3N3YWxsYWguY29tIiwibmFtZSI6IlBoeXNpY3N3YWxsYWgifSwiZW1haWwiOiJoYXJzaDIxMHJhampqQGdtYWlsLmNvbSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczNDcwNTc3OX0.fPBuRF0vQ_tMbq2io1pp5n3vCvivI_3eWwClaYaa5Qk"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]}'
