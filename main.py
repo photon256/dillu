@@ -171,6 +171,8 @@ async def upload(bot: Client, m: Message):
             elif "tencdn.classplusapp" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "media-cdn.classplusapp" in url:
             	url = f"https://drm-api-six.vercel.app/api/cp/dl?url={url}"
             	
+            elif "bcov" in url:
+                url = url.replace("master.m3u8", "master.m3u8?bcov_auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MzQ2NzE4NTYsImNvbiI6eyJpc0FkbWluIjpmYWxzZSwiYXVzZXIiOiJVMFZ6TkdGU2NuQlZjR3h5TkZwV09FYzBURGxOZHowOSIsImlkIjoiTmt0M05sQTJPVmRXVHl0V1pXZEJLMHB6UzJaT1p6MDkiLCJmaXJzdF9uYW1lIjoiYVhRMlVHNVpLMnRtVVZBMldHbFpWR3A2UkdScVVUMDkiLCJlbWFpbCI6IlFVMXZaRUo2VjJGdlVFRkpUMkZhYTBkdFExWXhSRVpTVHpOSE9HVjRNVmh1UjBKemNFcFdiRlJ5YnowPSIsInBob25lIjoiYjFFNVdXb3phamhvUlVwTWNtTjVRMFp3WlhsSGR6MDkiLCJhdmF0YXIiOiJLM1ZzY1M4elMwcDBRbmxrYms4M1JEbHZla05pVVQwOSIsInJlZmVycmFsX2NvZGUiOiJRWEpYTVVSVGRUTnJXSGh1TlRWTVRVZ3pSVkZGVVQwOSIsImRldmljZV90eXBlIjoiYW5kcm9pZCIsImRldmljZV92ZXJzaW9uIjoiUShBbmRyb2lkIDEwLjApIiwiZGV2aWNlX21vZGVsIjoiWGlhb21pIE0yMDA3SjIwQ0kiLCJyZW1vdGVfYWRkciI6IjU0LjE5Ny4yMDUuMTM2In19.Bkb-0ogMNzS9A1YvVWVcU7bZKbO8ampDVqCsVSJ70wgQ70q5e__NEZKnSvBIBtrGEqoD-OS4MkUbOD-hWeahtVuNzihXd_FOmic9c6jYmypSDUfHAhu1la02cMbvPcV69IcP4Jcb7FQ4GUGsXsxVvr99LNM-VOM0NLPMfRTrZ2FW23iUDp5dn35efvKdAiockFSx9ME5C120Q7_iJ_SJfGgnLtKeCbx5VLqIY_n9CotmO97PlbPRmbc_wOcjaGDFHDaD9DgeshriyqqrT2RsFKBXT8OdyaW8TGkwZFKGUSuCziX2DPOx5wcoE-n55F3DqYOzjwNIZUsQXLR9Oe0PzA")
             elif "cwmediabkt99.crwilladmin.com" in url:
             	url = url.replace(' ', '%20')
             elif ".pdf*abcdefg" in url:
