@@ -14,7 +14,7 @@ import subprocess
 
 import core as helper
 from utils import progress_bar
-from vars import API_ID, API_HASH, BOT_TOKEN, ADMINS
+from vars import API_ID, API_HASH, BOT_TOKEN
 from aiohttp import ClientSession
 from pyromod import listen
 from subprocess import getstatusoutput
@@ -35,7 +35,7 @@ bot = Client(
     bot_token=BOT_TOKEN)
 
 
-@bot.on_message(filters.command(["start"]) & filters.user(ADMINS))
+@bot.on_message(filters.command(["start"]))
 async def start(bot: Client, m: Message):
     await m.reply_text(f"<b>Hello {m.from_user.mention} 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</b>")
 
