@@ -170,8 +170,7 @@ async def upload(bot: Client, m: Message):
             elif "tencdn.classplusapp" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "media-cdn.classplusapp" in url:
             	url = f"https://drm-api-six.vercel.app/api/cp/dl?url={url}"
             	
-            elif "brightcove" in url:
-                url = url.replace("master.m3u8", "master.m3u8?bcov_auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MzQ2NzE4NTYsImNvbiI6eyJpc0FkbWluIjpmYWxzZSwiYXVzZXIiOiJVMFZ6TkdGU2NuQlZjR3h5TkZwV09FYzBURGxOZHowOSIsImlkIjoiTmt0M05sQTJPVmRXVHl0V1pXZEJLMHB6UzJaT1p6MDkiLCJmaXJzdF9uYW1lIjoiYVhRMlVHNVpLMnRtVVZBMldHbFpWR3A2UkdScVVUMDkiLCJlbWFpbCI6IlFVMXZaRUo2VjJGdlVFRkpUMkZhYTBkdFExWXhSRVpTVHpOSE9HVjRNVmh1UjBKemNFcFdiRlJ5YnowPSIsInBob25lIjoiYjFFNVdXb3phamhvUlVwTWNtTjVRMFp3WlhsSGR6MDkiLCJhdmF0YXIiOiJLM1ZzY1M4elMwcDBRbmxrYms4M1JEbHZla05pVVQwOSIsInJlZmVycmFsX2NvZGUiOiJRWEpYTVVSVGRUTnJXSGh1TlRWTVRVZ3pSVkZGVVQwOSIsImRldmljZV90eXBlIjoiYW5kcm9pZCIsImRldmljZV92ZXJzaW9uIjoiUShBbmRyb2lkIDEwLjApIiwiZGV2aWNlX21vZGVsIjoiWGlhb21pIE0yMDA3SjIwQ0kiLCJyZW1vdGVfYWRkciI6IjU0LjE5Ny4yMDUuMTM2In19.Bkb-0ogMNzS9A1YvVWVcU7bZKbO8ampDVqCsVSJ70wgQ70q5e__NEZKnSvBIBtrGEqoD-OS4MkUbOD-hWeahtVuNzihXd_FOmic9c6jYmypSDUfHAhu1la02cMbvPcV69IcP4Jcb7FQ4GUGsXsxVvr99LNM-VOM0NLPMfRTrZ2FW23iUDp5dn35efvKdAiockFSx9ME5C120Q7_iJ_SJfGgnLtKeCbx5VLqIY_n9CotmO97PlbPRmbc_wOcjaGDFHDaD9DgeshriyqqrT2RsFKBXT8OdyaW8TGkwZFKGUSuCziX2DPOx5wcoE-n55F3DqYOzjwNIZUsQXLR9Oe0PzA")
+            
             elif "cwmediabkt99.crwilladmin.com" in url:
             	url = url.replace(' ', '%20')
             elif ".pdf*abcdefg" in url:
@@ -181,7 +180,7 @@ async def upload(bot: Client, m: Message):
                 url = f"https://master-api-v2.vercel.app/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJhbmphbGFqQGdtYWlsLmNvbSIsImF1ZCI6IjUyNDc0NCIsImlhdCI6MTczNDM2NDU2OCwiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSmFsYWogS2FyYW4iLCJlbWFpbCI6ImthcmFuamFsYWpAZ21haWwuY29tIiwicGhvbmUiOiI5MTI1NjAyNjU4IiwidXNlcklkIjoiYWRkYS52MS4zMTVkMGY4NDlhMTkyZTc3ZWQwMzEyNjllZmM2YTUwMyIsImxvZ2luQXBpVmVyc2lvbiI6MX0.hDBx0uZTCoUZf7ySQmugQNh2FNmcJMtIIGFXXzBvNjuht8zhKGR3gIC7kkQ_2avcfftGRB5VFXKCRYY1Au8mkw"
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
-             url =  "https://master-api-v2.vercel.app/pw-dl?url="+ "https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUzMTA1NzkuNDYyLCJkYXRhIjp7Il9pZCI6IjYyOTc2ZjA1YmRjYzc4MDAxYWZmNmM4NyIsInVzZXJuYW1lIjoiNzkwMzIxMDY5NSIsImZpcnN0TmFtZSI6IkhhcnNoIiwibGFzdE5hbWUiOiJSYWoiLCJvcmdhbml6YXRpb24iOnsiX2lkIjoiNWViMzkzZWU5NWZhYjc0NjhhNzlkMTg5Iiwid2Vic2l0ZSI6InBoeXNpY3N3YWxsYWguY29tIiwibmFtZSI6IlBoeXNpY3N3YWxsYWgifSwiZW1haWwiOiJoYXJzaDIxMHJhampqQGdtYWlsLmNvbSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczNDcwNTc3OX0.fPBuRF0vQ_tMbq2io1pp5n3vCvivI_3eWwClaYaa5Qk&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiIsInRnX3VzZXJuYW1lIjoiTm90aGluZyAobmFtZSkiLCJpYXQiOjE3MzM0MTY2MTZ9.Db8ROL5QD_OnQOGeWZ_N5c9LdEKZLi4rvIMEktjsur0"
+             url =  "https://solo-api-one.vercel.app/api/pw?url="+ "https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]}'
