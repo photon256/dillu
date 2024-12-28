@@ -180,7 +180,7 @@ async def upload(bot: Client, m: Message):
                 url = f"https://master-api-v2.vercel.app/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJhbmphbGFqQGdtYWlsLmNvbSIsImF1ZCI6IjUyNDc0NCIsImlhdCI6MTczNDM2NDU2OCwiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSmFsYWogS2FyYW4iLCJlbWFpbCI6ImthcmFuamFsYWpAZ21haWwuY29tIiwicGhvbmUiOiI5MTI1NjAyNjU4IiwidXNlcklkIjoiYWRkYS52MS4zMTVkMGY4NDlhMTkyZTc3ZWQwMzEyNjllZmM2YTUwMyIsImxvZ2luQXBpVmVyc2lvbiI6MX0.hDBx0uZTCoUZf7ySQmugQNh2FNmcJMtIIGFXXzBvNjuht8zhKGR3gIC7kkQ_2avcfftGRB5VFXKCRYY1Au8mkw"
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
-             url =  "https://solo-api-one.vercel.app/api/pw?url="+ "https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd"
+             url =  "https://solo-api-one.vercel.app/api/pw?url="+ "https://d1d34p8vz63oiq.cloudfront.net/" + id + "/master.mpd&quality=720"
 
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]}'
@@ -230,11 +230,12 @@ async def upload(bot: Client, m: Message):
                       		copy = helper.decrypt_file(file_path, key)
                       		filename = file_path
                       		await prog.delete(True)
+                            time.sleep(2)
                       		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                       		count += 1
                      except FloodWait as e:
                       await m.reply_text(str(e))
-                      time.sleep(1)
+                      time.sleep(2)
                       continue
                 
                 elif "drive" in url or ".ws" in url or "cwmediabkt99.crwilladmin.com" in url:
@@ -271,6 +272,7 @@ async def upload(bot: Client, m: Message):
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
                         count += 1
                         os.remove(f'{name}.pdf')
+                        time.sleep(2)
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
@@ -283,7 +285,7 @@ async def upload(bot: Client, m: Message):
                     await prog.delete(True)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
-                    time.sleep(1)
+                    time.sleep(2)
 
             except Exception as e:
                 await m.reply_text(
