@@ -230,7 +230,7 @@ async def upload(bot: Client, m: Message):
                       		copy = helper.decrypt_file(file_path, key)
                       		filename = file_path
                       		await prog.delete(True)
-                              time.sleep(2)
+                            time.sleep(2)
                       		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                       		count += 1
                      except FloodWait as e:
