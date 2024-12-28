@@ -41,7 +41,7 @@ async def start(bot: Client, m: Message):
 
 @bot.on_message(filters.command("stop"))
 async def restart_handler(_, m):
-    await m.reply_text("**Stopped**", True)
+    await m.reply_text("<blockquote>**Stopped**</blockquote>", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
@@ -71,12 +71,12 @@ async def upload(bot: Client, m: Message):
            return
     
    
-    await editable.edit(f"**𝕋ᴏᴛᴀʟ ʟɪɴᴋ𝕤** **{len(links)}**\n\n**Send index number** **1**")
+    await editable.edit(f"<blockquote>**𝕋ᴏᴛᴀʟ ʟɪɴᴋ𝕤** **{len(links)}**\n\n**Send index number** **1**</blockquote>")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
 
-    await editable.edit("**Now Please Send Me Your Batch Name Or Send d **")
+    await editable.edit("<blockquote>**Now Please Send Me Your Batch Name Or Send d **</blockquote>")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
@@ -86,7 +86,7 @@ async def upload(bot: Client, m: Message):
         b_name = raw_text0
     
 
-    await editable.edit("**Enter resolution**")
+    await editable.edit("<blockquote>**Enter resolution**</blockquote>")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     await input2.delete(True)
@@ -110,7 +110,7 @@ async def upload(bot: Client, m: Message):
     
     
 
-    await editable.edit("**Caption**")
+    await editable.edit("<blockquote>**Caption**</blockquote>")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
@@ -120,7 +120,7 @@ async def upload(bot: Client, m: Message):
     else:
         MR = raw_text3
    
-    await editable.edit("**Send thumbnail or no**")
+    await editable.edit("<blockquote>**Send thumbnail or no**</blockquote>")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
@@ -138,7 +138,7 @@ async def upload(bot: Client, m: Message):
     
     batch_message = await bot.send_message(
     chat_id=editable.chat.id,
-    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** `{len(links)}` "
+    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> "
     )
     await bot.pin_chat_message(chat_id=editable.chat.id, message_id=batch_message.id, both_sides=True)
         
@@ -198,8 +198,8 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n<blockquote>🕸️ Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : **{MR}**'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**Batch Name** : **{b_name}**\n\n  **Downloaded By:** : **{MR}**'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n<blockquote>🔷Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**Batch Name** : <blockquote>**{b_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a
@@ -277,7 +277,7 @@ async def upload(bot: Client, m: Message):
                         time.sleep(e.x)
                         continue
                 else:
-                    Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
+                    Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -294,7 +294,7 @@ async def upload(bot: Client, m: Message):
 
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text("**Batch Completed**✅")
+    await m.reply_text("<blockquote>**Batch Completed**✅</blockquote>")
 
 
 bot.run()
