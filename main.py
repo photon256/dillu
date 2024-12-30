@@ -13,6 +13,7 @@ import requests
 import subprocess
 
 import core as helper
+from bot import bot
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN, OWNER
 from aiohttp import ClientSession
@@ -27,11 +28,7 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-bot = Client(
-    "bot",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=BOT_TOKEN)
+
 
 
 @bot.on_message(filters.command(["start"]))
