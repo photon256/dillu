@@ -295,4 +295,4 @@ async def upload(bot: Client, m: Message):
     await m.reply_text("<blockquote>**Batch Completed**✅</blockquote>")
 
 
-bot.run()
+
