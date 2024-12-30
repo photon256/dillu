@@ -13,7 +13,7 @@ import requests
 import subprocess
 
 import core as helper
-from bot import bot
+from init import bot
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN, OWNER
 from aiohttp import ClientSession
