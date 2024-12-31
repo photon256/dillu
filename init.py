@@ -6,10 +6,7 @@ from vars import API_ID, API_HASH, BOT_TOKEN
 
 
 
-logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
-    level=logging.INFO,
-)
+
 
 
 
