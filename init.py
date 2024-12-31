@@ -24,6 +24,6 @@ bot = Client(
 )
 
 
-loop.run_until_complete(bot())
+loop.run_until_complete(bot.run())
 
 
