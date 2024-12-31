@@ -1,4 +1,4 @@
- import asyncio
+import asyncio
 import logging
 from pyrogram import Client
 from vars import API_ID, API_HASH, BOT_TOKEN
