@@ -31,7 +31,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 
-@bot.on_message(filters.command(["start"]) & filters.user(OWNER))
+@bot.on_message(filters.command(["start"]))
 async def start(bot: Client, m: Message):
     await m.reply_text(f"<blockquote>Hello 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</blockquote>")
 
@@ -43,7 +43,7 @@ async def restart_handler(_, m):
 
 
 
-@bot.on_message(filters.command(["txt"]) & filters.user(OWNER))
+@bot.on_message(filters.command(["txt"]) 
 async def upload(bot: Client, m: Message):
     editable = await m.reply_text('<blockquote>Send text</blockquote>')
     input: Message = await bot.listen(editable.chat.id)
