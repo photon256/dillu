@@ -1,5 +1,5 @@
 import asyncio
-from logs import logger
+from logs import logging
 from pyrogram import Client
 from varsimport API_ID, API_HASH, BOT_TOKEN
 
