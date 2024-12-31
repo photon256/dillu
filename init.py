@@ -5,7 +5,7 @@ from vars import API_ID, API_HASH, BOT_TOKEN
 
 
 
-loop = asyncio.get_event_loop()
+
 logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
     level=logging.INFO,
@@ -22,17 +22,8 @@ bot = Client(
     sleep_threshold=120,
     workers=10
 )
-async def info_bot():
-    global BOT_ID, BOT_NAME, BOT_USERNAME
-    await bot.start()
-    getme = await bot.get_me()
-    BOT_ID = getme.id
-    BOT_USERNAME = getme.username
-    if getme.last_name:
-        BOT_NAME = getme.first_name + " " + getme.last_name
-    else:
-        BOT_NAME = getme.first_name
 
 
-loop.run_until_complete(info_bot())
+
+
 bot.run()
