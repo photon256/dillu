@@ -15,7 +15,7 @@ logging.basicConfig(
 
 
 bot = Client(
-    ":Uploader:",
+    "bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
@@ -35,3 +35,4 @@ async def info_bot():
 
 
 loop.run_until_complete(info_bot())
+bot.run()
