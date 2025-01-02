@@ -31,7 +31,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 
-@bot.on_message(filters.command(["start"]))
+@bot.on_message(filters.command(["start"]) & filters.user(OWNER))
 async def start(bot: Client, m: Message):
     await m.reply_text(f"<blockquote>Hello 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</blockquote>")
 
