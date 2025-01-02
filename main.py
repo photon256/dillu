@@ -43,7 +43,7 @@ async def restart_handler(_, m):
 
 
 
-@bot.on_message(filters.command(["txt"]))
+@bot.on_message(filters.command(["monu"]))
 async def upload(bot: Client, m: Message):
     editable = await m.reply_text('<blockquote>Send text</blockquote>')
     input: Message = await bot.listen(editable.chat.id)
