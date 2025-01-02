@@ -189,12 +189,10 @@ async def upload(bot: Client, m: Message):
             else:
                 ytf = f"b[height<={raw_text2}]/bv[height<={raw_text2}]+ba/b/bv+ba"
 
-            cookie_path = "cookies.txt"
-
             if "jw-prod" in url:
-                cmd = f'yt-dlp --cookies "{cookie_path}" -o "{name}.mp4" "{url}"'
+                cmd = f'yt-dlp -o "{name}.mp4" "{url}"'
             else:
-                cmd = f'yt-dlp --cookies "{cookie_path}" -f "{ytf}" "{url}" -o "{name}.mp4"'
+                cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:  
                 
