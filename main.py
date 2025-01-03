@@ -73,20 +73,20 @@ async def upload(bot: Client, m: Message):
     raw_text = input0.text
     await input0.delete(True)
 
-    await editable.edit("<blockquote>**Now Please Send Me Your Batch Name Or Send d **</blockquote>")
-    input1: Message = await bot.listen(editable.chat.id)
+    #await editable.edit("<blockquote>**Now Please Send Me Your Batch Name Or Send d **</blockquote>")
+    #input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
-    await input1.delete(True)
+    #await input1.delete(True)
     if raw_text0 == 'd':
         b_name = file_name
     else:
         b_name = raw_text0
     
 
-    await editable.edit("<blockquote>**Enter resolution**</blockquote>")
-    input2: Message = await bot.listen(editable.chat.id)
+    #await editable.edit("<blockquote>**Enter resolution**</blockquote>")
+    #input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
-    await input2.delete(True)
+    #await input2.delete(True)
     try:
         if raw_text2 == "144":
             res = "256x144"
@@ -107,21 +107,21 @@ async def upload(bot: Client, m: Message):
     
     
 
-    await editable.edit("<blockquote>**Caption**</blockquote>")
-    input3: Message = await bot.listen(editable.chat.id)
+    #await editable.edit("<blockquote>**Caption**</blockquote>")
+    #input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
-    await input3.delete(True)
+    #await input3.delete(True)
     highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
     if raw_text3 == 'Robin':
         MR = highlighter 
     else:
         MR = raw_text3
    
-    await editable.edit("<blockquote>**Send thumbnail or no**</blockquote>")
+    #await editable.edit("<blockquote>**Send thumbnail or no**</blockquote>")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
-    await input6.delete(True)
-    await editable.delete()
+    #await input6.delete(True)
+    #await editable.delete()
 
     thumb = input6.text
     if thumb.startswith("http://") or thumb.startswith("https://"):
@@ -135,7 +135,7 @@ async def upload(bot: Client, m: Message):
     
     batch_message = await bot.send_message(
     chat_id=editable.chat.id,
-    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> "
+    text=f"**Batch Name:** <blockquote>{file_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> "
     )
     await bot.pin_chat_message(chat_id=editable.chat.id, message_id=batch_message.id, both_sides=True)
         
@@ -196,15 +196,15 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n<blockquote>🔷Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**Batch Name** : <blockquote>**{b_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} DildaarYaara💚.mkv\n\n<blockquote>🔷Batch Name: {file_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**Dildaaryaara💚**</blockquote>'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} DildaarYaara.pdf \n\n**Batch Name** : <blockquote>**{file_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**Dildaaryaara💚**</blockquote>'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a
                      key = k
                      try:
                       	if ".pdf" in a:
-                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ...**\n\n📝Name » {name}\n❄Quality » {raw_text2}"
+                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ...**\n\n📝Name » {name}\n❄Quality »**720**"
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
@@ -223,7 +223,7 @@ async def upload(bot: Client, m: Message):
                       
                             
                       	else:
-                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
+                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » **720**"
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
@@ -277,7 +277,7 @@ async def upload(bot: Client, m: Message):
                         time.sleep(e.x)
                         continue
                 else:
-                    Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
+                    Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality »**720**</blockquote>"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
