@@ -1,7 +1,8 @@
-from pyrogram import filters, Client as ace
-from main import LOGGER as LOGS, prefixes
+from pyrogram import filters
+from init import bot as ace
+import logs
 from pyrogram.types import Message
-from main import Config
+from vars import *
 import os
 import requests
 import shutil
@@ -9,8 +10,7 @@ from PIL import Image
 from io import BytesIO
 
 @ace.on_message(
-    (filters.chat(Config.GROUPS) | filters.chat(Config.AUTH_USERS)) &
-    filters.incoming & filters.command("ytc", prefixes=prefixes)
+    (filters.command("ytc"))
 )
 async def drm(bot: ace, m: Message):
     path = f"{Config.DOWNLOAD_LOCATION}/{m.chat.id}"
