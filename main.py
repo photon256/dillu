@@ -300,8 +300,8 @@ async def upload(bot: Client, m: Message):
 
 @bot.on_message(filters.command(["ytc"]))
 async def drm(bot: Client, m: Message):
-    path = f"{Config.DOWNLOAD_LOCATION}/{m.chat.id}"
-    tPath = f"{Config.DOWNLOAD_LOCATION}/PHOTO/{m.chat.id}"
+    path = f"./downloads/{m.chat.id}"
+    tPath = f"./downloads/{m.chat.id}"
     os.makedirs(path, exist_ok=True)
     os.makedirs(tPath, exist_ok=True)
 
