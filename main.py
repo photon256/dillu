@@ -230,7 +230,7 @@ async def upload(bot: Client, m: Message):
                       		filename = file_path
                       		await prog.delete(True)
                       		time.sleep(2)
-                      		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                      		await helper.send_vid(bot, m, cc, filename, name, prog)
                       		count += 1
                      except FloodWait as e:
                       await m.reply_text(str(e))
