@@ -75,19 +75,19 @@ async def upload(bot: Client, m: Message):
 
     #await editable.edit("<blockquote>**Now Please Send Me Your Batch Name Or Send d **</blockquote>")
     #input1: Message = await bot.listen(editable.chat.id)
-    raw_text0 = input1.text
+    #raw_text0 = input1.text
     #await input1.delete(True)
-    if raw_text0 == 'd':
+    #if raw_text0 == 'd':
         b_name = file_name
-    else:
+    #else:
         b_name = raw_text0
     
 
     #await editable.edit("<blockquote>**Enter resolution**</blockquote>")
     #input2: Message = await bot.listen(editable.chat.id)
-    raw_text2 = input2.text
+    #raw_text2 = input2.text
     #await input2.delete(True)
-    try:
+    #try:
         if raw_text2 == "144":
             res = "256x144"
         elif raw_text2 == "240":
@@ -102,32 +102,32 @@ async def upload(bot: Client, m: Message):
             res = "1920x1080" 
         else: 
             res = "UN"
-    except Exception:
+    #except Exception:
             res = "UN"
     
     
 
     #await editable.edit("<blockquote>**Caption**</blockquote>")
     #input3: Message = await bot.listen(editable.chat.id)
-    raw_text3 = input3.text
+    #raw_text3 = input3.text
     #await input3.delete(True)
     highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
-    if raw_text3 == 'Robin':
+    #if raw_text3 == 'Robin':
         MR = highlighter 
-    else:
+    #else:
         MR = raw_text3
    
     #await editable.edit("<blockquote>**Send thumbnail or no**</blockquote>")
-    input6 = message = await bot.listen(editable.chat.id)
-    raw_text6 = input6.text
+    #input6 = message = await bot.listen(editable.chat.id)
+    #raw_text6 = input6.text
     #await input6.delete(True)
     #await editable.delete()
 
-    thumb = input6.text
-    if thumb.startswith("http://") or thumb.startswith("https://"):
+    #thumb = input6.text
+    #if thumb.startswith("http://") or thumb.startswith("https://"):
         getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
         thumb = "thumb.jpg"
-    else:
+    #else:
         thumb == "no"
 
     
