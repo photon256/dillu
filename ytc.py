@@ -1,5 +1,5 @@
 from pyrogram import filters
-from init import bot as ace
+from init import bot
 import logs
 from pyrogram.types import Message
 from vars import *
@@ -9,8 +9,8 @@ import shutil
 from PIL import Image
 from io import BytesIO
 
-@ace.on_message(filters.command("ytc"))
-async def drm(bot: ace, m: Message):
+@bot.on_message(filters.command("ytc"))
+async def drm(bot: Client, m: Message):
     path = f"{Config.DOWNLOAD_LOCATION}/{m.chat.id}"
     tPath = f"{Config.DOWNLOAD_LOCATION}/PHOTO/{m.chat.id}"
     os.makedirs(path, exist_ok=True)
@@ -75,3 +75,4 @@ async def drm(bot: ace, m: Message):
     await show.delete()
     print("Done")
     shutil.rmtree(tPath)
+    
