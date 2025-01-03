@@ -4,6 +4,8 @@ charset-normalizer==3.1.0
 idna==3.4
 mutagen==1.46.0
 pyaes==1.6.1
+io
+PIL
 pycryptodome==3.18.0
 pyrofork
 PySocks==1.7.1
