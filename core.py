@@ -256,7 +256,7 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     time.sleep(3) 
 
 
-async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
+async def send_vid(bot: Client, m: Message,cc,filename,name,prog):
     
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
