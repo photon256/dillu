@@ -263,9 +263,9 @@ async def send_vid(bot: Client, m: Message,cc,filename,name,prog):
     reply = await m.reply_text(f"<blockquote>**Uploading ...** - `{name}`</blockquote>")
     #try:
         #if thumb == "no":
-            thumbnail = f"{filename}.jpg"
+            #thumbnail = f"{filename}.jpg"
         #else:
-            thumbnail = thumb
+            #thumbnail = thumb
     #except Exception as e:
         #await m.reply_text(str(e))
 
