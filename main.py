@@ -18,7 +18,9 @@ from vars import API_ID, API_HASH, BOT_TOKEN, OWNER
 from init import bot 
 from aiohttp import ClientSession
 from subprocess import getstatusoutput
-
+import shutil
+from PIL import Image
+from io import BytesIO
 from pyrogram import Client, filters
 import mmap
 from pyrogram.types import Message
