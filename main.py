@@ -296,7 +296,7 @@ async def upload(bot: Client, m: Message):
         await m.reply_text(e)
     await m.reply_text("<blockquote>**Batch Completed**✅</blockquote>")
 
-@bot.on_message(filters.command("ytc"))
+@bot.on_message(filters.command(["ytc"]))
 async def drm(bot: Client, m: Message):
     path = f"{Config.DOWNLOAD_LOCATION}/{m.chat.id}"
     tPath = f"{Config.DOWNLOAD_LOCATION}/PHOTO/{m.chat.id}"
