@@ -78,9 +78,9 @@ async def upload(bot: Client, m: Message):
     #raw_text0 = input1.text
     #await input1.delete(True)
     #if raw_text0 == 'd':
-        b_name = file_name
+        #b_name = file_name
     #else:
-        b_name = raw_text0
+        #b_name = raw_text0
     
 
     #await editable.edit("<blockquote>**Enter resolution**</blockquote>")
@@ -88,22 +88,22 @@ async def upload(bot: Client, m: Message):
     #raw_text2 = input2.text
     #await input2.delete(True)
     #try:
-        if raw_text2 == "144":
-            res = "256x144"
-        elif raw_text2 == "240":
-            res = "426x240"
-        elif raw_text2 == "360":
-            res = "640x360"
-        elif raw_text2 == "480":
-            res = "854x480"
-        elif raw_text2 == "720":
-            res = "1280x720"
-        elif raw_text2 == "1080":
-            res = "1920x1080" 
-        else: 
-            res = "UN"
+        #if raw_text2 == "144":
+            #res = "256x144"
+        #elif raw_text2 == "240":
+            #res = "426x240"
+        #elif raw_text2 == "360":
+            #res = "640x360"
+        #elif raw_text2 == "480":
+            #res = "854x480"
+        #elif raw_text2 == "720":
+            #res = "1280x720"
+        #elif raw_text2 == "1080":
+            #res = "1920x1080" 
+        #else: 
+            #res = "UN"
     #except Exception:
-            res = "UN"
+            #res = "UN"
     
     
 
@@ -113,9 +113,9 @@ async def upload(bot: Client, m: Message):
     #await input3.delete(True)
     highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
     #if raw_text3 == 'Robin':
-        MR = highlighter 
+        #MR = highlighter 
     #else:
-        MR = raw_text3
+        #MR = raw_text3
    
     #await editable.edit("<blockquote>**Send thumbnail or no**</blockquote>")
     #input6 = message = await bot.listen(editable.chat.id)
@@ -125,10 +125,10 @@ async def upload(bot: Client, m: Message):
 
     #thumb = input6.text
     #if thumb.startswith("http://") or thumb.startswith("https://"):
-        getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
-        thumb = "thumb.jpg"
+        #getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
+        #thumb = "thumb.jpg"
     #else:
-        thumb == "no"
+        #thumb == "no"
 
     
     
