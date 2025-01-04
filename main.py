@@ -281,10 +281,10 @@ async def upload(bot: Client, m: Message):
                 else:
                     Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
                     prog = await m.reply_text(Show)
+                    time.sleep(2)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
                     await prog.delete(True)
-                    
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                     count += 1
                     time.sleep(2)
@@ -299,3 +299,8 @@ async def upload(bot: Client, m: Message):
         await m.reply_text(e)
     await m.reply_text("<blockquote>**Batch Completed**✅</blockquote>")
 
+
+
+
+
+bot.run()
