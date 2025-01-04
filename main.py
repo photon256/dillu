@@ -60,6 +60,15 @@ async def upload(bot: Client, m: Message):
            content = f.read()
        content = content.split("\n")
        links = []
+        videocount = 0
+        pdfcount = 0
+        for line in f:
+            link = line.strip().split("://", 1)
+            links.append(link)
+            if ".pdf" in link[1]:
+                pdfcount += 1
+            else:
+                videocount += 1
        for i in content:
            links.append(i.split("://", 1))
        os.remove(x)
@@ -132,19 +141,18 @@ async def upload(bot: Client, m: Message):
     else:
         thumb == "no"
 
-    try:
-        links = []
-        videocount = 0
-        pdfcount = 0
-        with open(x, "r", encoding="utf-8") as f:
-            for line in f:
-                link = line.strip().split("://", 1)
-                links.append(link)
-                if ".pdf" in link[1]:
-                    pdfcount += 1 
-                else:
+    
+        
+        
+        
+            
+                
+                
+                
                     
-                    videocount += 1
+                
+                    
+                    
     
     
     batch_message = await bot.send_message(
