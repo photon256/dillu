@@ -59,7 +59,7 @@ async def upload(bot: Client, m: Message):
        with open(x, "r") as f:
            content = f.read()
        content = content.split("\n")
-       
+       links = []
        for i in content:
            links.append(i.split("://", 1))
        os.remove(x)
