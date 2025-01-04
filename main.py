@@ -137,14 +137,14 @@ async def upload(bot: Client, m: Message):
         videocount = 0
         pdfcount = 0
         with open(x, "r", encoding="utf-8") as f:
-            
             for line in f:
-            link = line.strip().split("://", 1)
-            links.append(link)
-            if ".pdf" in link[1]:
-                pdfcount += 1 
-            else:
-                 videocount += 1
+                link = line.strip().split("://", 1)
+                links.append(link)
+                if ".pdf" in link[1]:
+                    pdfcount += 1 
+                else:
+                    
+                    videocount += 1
     
     
     batch_message = await bot.send_message(
