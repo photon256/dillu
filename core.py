@@ -216,7 +216,7 @@ def time_name():
 
 
 async def download_video(url,cmd, name):
-    download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32" --cookies cookies.txt'
+    download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter
     print(download_cmd)
     logging.info(download_cmd)
@@ -242,7 +242,7 @@ async def download_video(url,cmd, name):
         return name
     except FileNotFoundError as exc:
         return os.path.isfile.splitext[0] + "." + "mp4"
-
+        
 
 async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     reply = await m.reply_text(f"Uploading » `{name}`")
