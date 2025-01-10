@@ -295,14 +295,14 @@ async def upload(bot: Client, m: Message):
                     prog = await m.reply_text(Show)
                     
                     res_file = await helper.download_video(url, cmd, name)
-                    
+                    time.sleep(2)
                     filename = res_file
                     await prog.delete(True)
-                    
+                    time.sleep(2)
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                    await asyncio.sleep(3)
+                    time.sleep(2)
                     count += 1
-                    await asyncio.sleep(3)
+                    time.sleep(3)
                     
 
             except Exception as e:
