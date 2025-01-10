@@ -6,7 +6,8 @@ mutagen
 pyaes
 Pillow
 pycryptodome
-pyrofork
+pyrogram
+pyromod
 PySocks
 python-dotenv
 requests
