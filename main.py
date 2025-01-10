@@ -245,6 +245,7 @@ async def upload(bot: Client, m: Message):
                       		time.sleep(2)
                       		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                       		count += 1
+                            time.sleep(2)
                      except FloodWait as e:
                       await m.reply_text(str(e))
                       time.sleep(2)
@@ -294,14 +295,15 @@ async def upload(bot: Client, m: Message):
                     prog = await m.reply_text(Show)
                     
                     res_file = await helper.download_video(url, cmd, name)
-                    await asyncio.sleep(3)
+                    
                     filename = res_file
                     await prog.delete(True)
-                    await asyncio.sleep(2)
+                    
                     await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                    time.sleep(2)
+                    await asyncio.sleep(3)
                     count += 1
-                    time.sleep(2)
+                    await asyncio.sleep(3)
+                    
 
             except Exception as e:
                 await m.reply_text(
