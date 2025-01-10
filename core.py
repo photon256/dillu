@@ -216,7 +216,7 @@ def time_name():
 
 
 async def download_video(url,cmd, name):
-    await asyncio.sleep(3)
+    
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32" --cookies cookies.txt'
     global failed_counter
     print(download_cmd)
@@ -263,6 +263,7 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     await prog.delete (True)
     time.sleep(2)
     reply = await m.reply_text(f"**Uploading ...** - `{name}`")
+    time.sleep(2)
     try:
         if thumb == "no":
             thumbnail = f"{filename}.jpg"
