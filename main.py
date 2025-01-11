@@ -187,7 +187,7 @@ async def upload(bot: Client, m: Message):
              a = url.replace('*abcdefg', '')
              url = a
             elif '/ivs' in url:
-                url = f"https://master-api-v2.vercel.app/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrYXJhbmphbGFqQGdtYWlsLmNvbSIsImF1ZCI6IjUyNDc0NCIsImlhdCI6MTczNDM2NDU2OCwiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSmFsYWogS2FyYW4iLCJlbWFpbCI6ImthcmFuamFsYWpAZ21haWwuY29tIiwicGhvbmUiOiI5MTI1NjAyNjU4IiwidXNlcklkIjoiYWRkYS52MS4zMTVkMGY4NDlhMTkyZTc3ZWQwMzEyNjllZmM2YTUwMyIsImxvZ2luQXBpVmVyc2lvbiI6MX0.hDBx0uZTCoUZf7ySQmugQNh2FNmcJMtIIGFXXzBvNjuht8zhKGR3gIC7kkQ_2avcfftGRB5VFXKCRYY1Au8mkw"
+                url = f"https://master-api-v2.onrender.com/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg&quality=480"
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
              url =  "https://pw-links-api.onrender.com/process?v=https://sec1.pw.live/" + id + "/master.mpd&quality=480"
