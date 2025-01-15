@@ -247,12 +247,12 @@ async def download_video(url,cmd, name):
 
 async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     reply = await m.reply_text(f"Uploading » `{name}`")
-    time.sleep(1)
+    
     start_time = time.time()
     await m.reply_document(ka,caption=cc1)
     count+=1
     await reply.delete (True)
-    time.sleep(1)
+    
     os.remove(ka)
     time.sleep(3) 
 
@@ -261,9 +261,9 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
-    time.sleep(2)
+    
     reply = await m.reply_text(f"**Uploading ...** - `{name}`")
-    time.sleep(2)
+    
     try:
         if thumb == "no":
             thumbnail = f"{filename}.jpg"
@@ -280,7 +280,7 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     try:
         
         await m.reply_video(filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur, progress_args=(reply,start_time))
-        time.sleep(2)
+        
     except Exception:
         await m.reply_document(filename,caption=cc, progress=progress_bar,progress_args=(reply,start_time))
 
