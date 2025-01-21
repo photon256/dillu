@@ -237,15 +237,14 @@ async def upload(bot: Client, m: Message):
                       	else:
                       		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
                       		prog = await m.reply_text(Show)
-                            start_time = time.time()
+                            
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
                       		filename = file_path
                       		await prog.delete(True)
                       		
                       		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                            end_time = time.time()
-                            elapsed_time = end_time-start_time
+                            
                       		count += 1
                       		time.sleep(2)
                      except FloodWait as e:
