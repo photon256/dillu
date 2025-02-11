@@ -178,7 +178,7 @@ async def upload(bot: Client, m: Message):
 
             
             elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
-                url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}).json()['url']
+                url = https://master-api-v2-beah.onrender.com/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiAobm90aGluZykiLCJ0Z191c2VybmFtZSI6ImRpbGRhYXJ5YWFyYSIsImlhdCI6MTczNTY1ODYxM30.Rv0nhwTsE5pYPJdneFXKXYli8ZYblRG1nQZoT_o1zPE
             	
             
             elif "cwmediabkt99.crwilladmin.com" in url:
