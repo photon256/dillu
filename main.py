@@ -296,7 +296,7 @@ async def upload(bot: Client, m: Message):
                     prog = await m.reply_text(Show)
                     
                     res_file = await helper.download_video(url, cmd, name)
-                    
+                    time.sleep(2)
                     filename = res_file
                     await prog.delete(True)
                     
