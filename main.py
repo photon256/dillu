@@ -252,7 +252,7 @@ async def upload(bot: Client, m: Message):
                       
                       continue
                 
-                elif "drive" in url or ".ws" in url or "cwmediabkt99.crwilladmin.com" in url:
+                elif "drive" in url or ".ws" in url or "cwmediabkt99.crwilladmin.com" in url or ".json" in url:
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
