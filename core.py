@@ -92,6 +92,8 @@ async def download(url, name):
     	ka = f'{name}.pdf'
     elif ".ws" in url:
     	ka = f'{name}.html'
+    elif ".json" in url:
+        ka = f'{name}.json'
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:
