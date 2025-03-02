@@ -60,7 +60,14 @@ async def upload(bot: Client, m: Message):
        content = content.split("\n")
        links = []
        for i in content:
-           links.append(i.split("://", 1))
+           if "mpd" in i:
+               ab = await bot.ask(message.chat.id, "send pw token")
+               token = ab.text.strip()
+               os.remove(ab)
+               os.remove(token)
+               links.append(i.split("://", 1))
+           else:
+               links.append(i.split("://", 1))
        os.remove(x)
             # print(len(links)
     except:
@@ -191,7 +198,7 @@ async def upload(bot: Client, m: Message):
             elif '/master.mpd' in url:
              
              id =  url.split("/")[-2]
-             url =   f"https://madxapi-d0cbf6ac738c.herokuapp.com/" + id + "/master.m3u8?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDE1MjEzMDUuMzM5LCJkYXRhIjp7Il9pZCI6IjY1MTFlNGMzNzgyNGI1MDAxODBkOGVkMiIsInVzZXJuYW1lIjoiOTE5OTE3MjQ1MSIsImZpcnN0TmFtZSI6Ik5hdmVlbiIsImxhc3ROYW1lIjoiUHJha2FzaCIsIm9yZ2FuaXphdGlvbiI6eyJfaWQiOiI1ZWIzOTNlZTk1ZmFiNzQ2OGE3OWQxODkiLCJ3ZWJzaXRlIjoicGh5c2ljc3dhbGxhaC5jb20iLCJuYW1lIjoiUGh5c2ljc3dhbGxhaCJ9LCJlbWFpbCI6Im5hdmVlbnByYWthc2hudW1iZXIxQGdtYWlsLmNvbSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTc0MDkxNjUwNX0.ZUWZOTmNqeX_8LSo_2fnku0Lqqs2Vvcunjl01stwlGs"
+             url =   "https://madxapi-d0cbf6ac738c.herokuapp.com/" + id + f"/master.m3u8?token={token}"
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]}'
 
