@@ -59,15 +59,11 @@ async def upload(bot: Client, m: Message):
            content = f.read()
        content = content.split("\n")
        links = []
+       if "mpd" in content:
+           ab = await bot.ask(message.chat.id, "Send pw token")
+           token = ab.text.strip()
        for i in content:
-           if "mpd" in i:
-               ab = await bot.ask(message.chat.id, "send pw token")
-               token = ab.text.strip()
-               os.remove(ab)
-               os.remove(token)
-               links.append(i.split("://", 1))
-           else:
-               links.append(i.split("://", 1))
+           links.append(i.split("://", 1))
        os.remove(x)
             # print(len(links)
     except:
