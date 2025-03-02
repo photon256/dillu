@@ -189,7 +189,8 @@ async def upload(bot: Client, m: Message):
             elif '/ivs' in url:
                 url = f"https://master-api-v2.onrender.com/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg&quality=480"
             elif '/master.mpd' in url:
-             token = await bot.ask(message.chat.id, "Send Pw working token").text.strip()
+             raw_text = await bot.ask(message.chat.id, "Send Pw working token")
+             token = raw_text.text.strip()
              id =  url.split("/")[-2]
              url =   f"https://madxapi-d0cbf6ac738c.herokuapp.com/" + id + "/master.m3u8?token={token}"
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
