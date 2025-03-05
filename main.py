@@ -70,7 +70,7 @@ async def upload(bot: Client, m: Message):
            return
     
    
-    await editable.edit(f"Index 1 - {len(links)}\n Batch Name or send d \n Resolution \n Caption \n Thumbnail link or send no")
+    await editable.edit(f"Index 1 - {len(links)}\nBatch Name or send d \nResolution \nCaption")
     input0: Message = await bot.listen(editable.chat.id)
     appx = input0.text
     raw_text = appx.split("\n")[0]
@@ -86,7 +86,7 @@ async def upload(bot: Client, m: Message):
     
 
     
-    raw_text2 = appx.split("\n")[2]
+    raw_text2 = "480"
     
     try:
         if raw_text2 == "144":
