@@ -60,8 +60,9 @@ async def upload(bot: Client, m: Message):
                 content = f.read()
             content = content.split("\n")
             links = []
+            
             for i in content:
-            links.append(i.split("://", 1))
+                links.append(i.split("://", 1))
             os.remove(x)
             # print(len(links)
         except:
