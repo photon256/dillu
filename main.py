@@ -69,8 +69,8 @@ async def upload(bot: Client, m: Message):
             await m.reply_text("**Invalid file input.**")
             os.remove(x)
             return
-     else:
-         await m.reply_text("NOT YOUR BOT BRO")
+    else:
+        await m.reply_text("NOT YOUR BOT BRO")
     
    
     await editable.edit(f"Index 1 - {len(links)} \nResolution \nCaption")
