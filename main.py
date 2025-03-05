@@ -70,14 +70,14 @@ async def upload(bot: Client, m: Message):
            return
     
    
-    await editable.edit(f"Index 1 - {len(links)}\nBatch Name or send d \nResolution \nCaption")
+    await editable.edit(f"Index 1 - {len(links)} \nResolution \nCaption")
     input0: Message = await bot.listen(editable.chat.id)
     appx = input0.text
     raw_text = appx.split("\n")[0]
     await input0.delete(True)
 
     
-    raw_text0 = appx.split("\n")[1]
+    raw_text0 = "d"
     
     if raw_text0 == 'd':
         b_name = file_name
@@ -86,7 +86,7 @@ async def upload(bot: Client, m: Message):
     
 
     
-    raw_text2 = "480"
+    raw_text2 = appx.split("\n")[1]
     
     try:
         if raw_text2 == "144":
@@ -109,7 +109,7 @@ async def upload(bot: Client, m: Message):
     
 
     
-    raw_text3 = appx.split("\n")[3]
+    raw_text3 = appx.split("\n")[2]
     
     highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
     if raw_text3 == 'Robin':
