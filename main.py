@@ -71,6 +71,7 @@ async def upload(bot: Client, m: Message):
             return
     else:
         await m.reply_text("NOT YOUR BOT BRO")
+        return
     
    
     await editable.edit(f"Index 1 - {len(links)} \nResolution \nCaption")
