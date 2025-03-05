@@ -46,28 +46,30 @@ async def restart_handler(_, m):
 
 @bot.on_message(filters.command(["d"]))
 async def upload(bot: Client, m: Message):
-    editable = await m.reply_text('<blockquote>Send text</blockquote>')
-    input: Message = await bot.listen(editable.chat.id)
-    x = await input.download()
-    await input.delete(True)
-    file_name, ext = os.path.splitext(os.path.basename(x))
-
-    path = f"./downloads/{m.chat.id}"
-
-    try:
-       with open(x, "r") as f:
-           content = f.read()
-       content = content.split("\n")
-       links = []
-       
-       for i in content:
-           links.append(i.split("://", 1))
-       os.remove(x)
+    update_channel = "-1002363250260"
+    chk = await bot.get_chat_member(update_channel, "1996039956")
+    if chk == True:
+        editable = await m.reply_text('<blockquote>Send text</blockquote>')
+        input: Message = await bot.listen(editable.chat.id)
+        x = await input.download()
+        await input.delete(True)
+        file_name, ext = os.path.splitext(os.path.basename(x))
+        path = f"./downloads/{m.chat.id}"
+        try:
+            with open(x, "r") as f:
+                content = f.read()
+            content = content.split("\n")
+            links = []
+            for i in content:
+            links.append(i.split("://", 1))
+            os.remove(x)
             # print(len(links)
-    except:
-           await m.reply_text("**Invalid file input.**")
-           os.remove(x)
-           return
+        except:
+            await m.reply_text("**Invalid file input.**")
+            os.remove(x)
+            return
+     else:
+         await m.reply_text("NOT YOUR BOT BRO")
     
    
     await editable.edit(f"Index 1 - {len(links)} \nResolution \nCaption")
