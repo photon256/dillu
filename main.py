@@ -70,25 +70,24 @@ async def upload(bot: Client, m: Message):
            return
     
    
-    await editable.edit(f"<blockquote>**𝕋ᴏᴛᴀʟ ʟɪɴᴋ𝕤** **{len(links)}**\n\n**Send index number** **1**</blockquote>")
+    await editable.edit(f"Index 1 - {len(links)}\n Batch Name or send d \n Resolution \n Caption \n Thumbnail link or send no")
     input0: Message = await bot.listen(editable.chat.id)
-    raw_text = input0.text
+    appx = input0.text
+    raw_text = appx.split("\n")[0]
     await input0.delete(True)
 
-    await editable.edit("<blockquote>**Now Please Send Me Your Batch Name Or Send d **</blockquote>")
-    input1: Message = await bot.listen(editable.chat.id)
-    raw_text0 = input1.text
-    await input1.delete(True)
+    
+    raw_text0 = appx.split("\n")[1]
+    
     if raw_text0 == 'd':
         b_name = file_name
     else:
         b_name = raw_text0
     
 
-    await editable.edit("<blockquote>**Enter resolution**</blockquote>")
-    input2: Message = await bot.listen(editable.chat.id)
-    raw_text2 = input2.text
-    await input2.delete(True)
+    
+    raw_text2 = appx.split("\n")[2]
+    
     try:
         if raw_text2 == "144":
             res = "256x144"
@@ -109,37 +108,31 @@ async def upload(bot: Client, m: Message):
     
     
 
-    await editable.edit("<blockquote>**Caption**</blockquote>")
-    input3: Message = await bot.listen(editable.chat.id)
-    raw_text3 = input3.text
-    await input3.delete(True)
+    
+    raw_text3 = appx.split("\n")[3]
+    
     highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
     if raw_text3 == 'Robin':
         MR = highlighter 
     else:
         MR = raw_text3
    
-    await editable.edit("<blockquote>**Send thumbnail or no**</blockquote>")
-    input6 = message = await bot.listen(editable.chat.id)
-    raw_text6 = input6.text
-    await input6.delete(True)
+    
+    
+    
     
 
-    thumb = input6.text
+    thumb = appx.split("\n")[4]
     if thumb.startswith("http://") or thumb.startswith("https://"):
         getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
         thumb = "thumb.jpg"
     else:
         thumb == "no"
 
-    await editable.edit("<blockquote>**For Pw send working token or send n to continue **</blockquote>")
-    input7 = message = await bot.listen(editable.chat.id)
-    raw_text7 = input7.text
-    if raw_text7 == "no":
-        token = "no"
-    else:
-        token = f"{raw_text7}"
-    await input7.delete(True)
+    
+    
+    
+    
     await editable.delete()
         
         
@@ -198,7 +191,7 @@ async def upload(bot: Client, m: Message):
             elif '/ivs' in url:
                 url = f"https://master-api-v2.onrender.com/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg&quality=480"
             elif '/master.mpd' in url:
-             
+             token = "abc"
              id =  url.split("/")[-2]
              url =   "https://madxapi-d0cbf6ac738c.herokuapp.com/" + id + f"/master.m3u8?token={token}"
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
