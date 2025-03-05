@@ -122,7 +122,7 @@ async def upload(bot: Client, m: Message):
     
     
 
-    thumb = appx.split("\n")[4]
+    thumb = "no"
     if thumb.startswith("http://") or thumb.startswith("https://"):
         getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
         thumb = "thumb.jpg"
