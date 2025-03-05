@@ -135,7 +135,7 @@ async def upload(bot: Client, m: Message):
     await editable.edit("<blockquote>**For Pw send working token or send n to continue **</blockquote>")
     input7 = message = await bot.listen(editable.chat.id)
     raw_text7 = input7.text
-    if raw_text7 = "no":
+    if raw_text7 == "no":
         token = "no"
     else:
         token = f"{raw_text7}"
