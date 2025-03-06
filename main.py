@@ -49,7 +49,7 @@ async def upload(bot: Client, m: Message):
     update_channel = (-1002183553793)
     chk = await bot.get_chat_member(update_channel, OWNER)
     print(chk)
-    if  chk.status == "banned":
+    if  chk.ChatMemberStatus == "BANNED":
         editable = await m.reply_text('<blockquote>Send text</blockquote>')
         input: Message = await bot.listen(editable.chat.id)
         x = await input.download()
