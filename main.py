@@ -44,44 +44,33 @@ async def restart_handler(_, m):
 
 
 
-@bot.on_message(filters.command(["d"]))
+@bot.on_message(filters.command(["pa"]))
 async def upload(bot: Client, m: Message):
-    update_channel = (-1002183553793)
-    phk = {}
-    chk = await bot.get_chat_member(update_channel, OWNER)
-    print(chk)
-    
-    
-    
-    
-    
-    if chk.status == "BANNED":
-        editable = await m.reply_text('<blockquote>Send text</blockquote>')
-        input: Message = await bot.listen(editable.chat.id)
-        x = await input.download()
-        await input.delete(True)
-        file_name, ext = os.path.splitext(os.path.basename(x))
-        path = f"./downloads/{m.chat.id}"
-        try:
-            with open(x, "r") as f:
-                content = f.read()
-            content = content.split("\n")
-            links = []
-            
-            for i in content:
-                links.append(i.split("://", 1))
-            os.remove(x)
+    editable = await m.reply_text('<blockquote>Send text</blockquote>')
+    input: Message = await bot.listen(editable.chat.id)
+    x = await input.download()
+    await input.delete(True)
+    file_name, ext = os.path.splitext(os.path.basename(x))
+
+    path = f"./downloads/{m.chat.id}"
+
+    try:
+       with open(x, "r") as f:
+           content = f.read()
+       content = content.split("\n")
+       links = []
+       
+       for i in content:
+           links.append(i.split("://", 1))
+       os.remove(x)
             # print(len(links)
-        except:
-            await m.reply_text("**Invalid file input.**")
-            os.remove(x)
-            return
-    else:
-        await m.reply_text("NOT YOUR BOT BRO")
-        return
+    except:
+           await m.reply_text("**Invalid file input.**")
+           os.remove(x)
+           return
     
    
-    await editable.edit(f"Index 1 - {len(links)} \nResolution \nCaption")
+    await editable.edit(f"Total Index  - {len(links)}\nStart From \nResolution \nCaption")
     input0: Message = await bot.listen(editable.chat.id)
     appx = input0.text
     raw_text = appx.split("\n")[0]
@@ -123,7 +112,7 @@ async def upload(bot: Client, m: Message):
     raw_text3 = appx.split("\n")[2]
     
     highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
-    if raw_text3 == 'Robin':
+    if raw_text3 == '0':
         MR = highlighter 
     else:
         MR = raw_text3
