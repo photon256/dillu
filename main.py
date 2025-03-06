@@ -148,7 +148,7 @@ async def upload(bot: Client, m: Message):
                         videocount += 1 
         
     except Exception as e:    
-            return
+            print(e)
                 
                 
                 
