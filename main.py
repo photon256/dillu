@@ -48,6 +48,7 @@ async def restart_handler(_, m):
 async def upload(bot: Client, m: Message):
     update_channel = (-1002363250260)
     chk = await bot.get_chat_member(update_channel, OWNER)
+    print(chk)
     if chk == True:
         editable = await m.reply_text('<blockquote>Send text</blockquote>')
         input: Message = await bot.listen(editable.chat.id)
