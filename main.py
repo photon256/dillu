@@ -46,7 +46,7 @@ async def restart_handler(_, m):
 
 @bot.on_message(filters.command(["d"]))
 async def upload(bot: Client, m: Message):
-    update_channel = (-1002363250260)
+    update_channel = (-1002183553793)
     chk = await bot.get_chat_member(update_channel, OWNER)
     print(chk)
     if  "_"== "ChatMember":
