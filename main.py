@@ -47,9 +47,9 @@ async def restart_handler(_, m):
 @bot.on_message(filters.command(["d"]))
 async def upload(bot: Client, m: Message):
     update_channel = (-1002183553793)
-    chk = await bot.get_chat_member(update_channel, OWNER)
+    chk = await bot.get_chat_member(update_channel, OWNER).json()
     print(chk)
-    if  chk.status == "ChatMember":
+    if "ChatMember" in chk:
         editable = await m.reply_text('<blockquote>Send text</blockquote>')
         input: Message = await bot.listen(editable.chat.id)
         x = await input.download()
