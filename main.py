@@ -160,7 +160,7 @@ async def upload(bot: Client, m: Message):
     
     batch_message = await bot.send_message(
     chat_id=editable.chat.id,
-    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> \n Total pdf - {len(pdfcount)}"
+    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> \n Total pdf - {pdfcount}"
     )
     await bot.pin_chat_message(chat_id=editable.chat.id, message_id=batch_message.id, both_sides=True)
         
