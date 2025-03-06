@@ -53,7 +53,7 @@ async def upload(bot: Client, m: Message):
     
     
     
-    if "Member" in phk:
+    if chk.status == ChatMemberStatus.BANNED:
         editable = await m.reply_text('<blockquote>Send text</blockquote>')
         input: Message = await bot.listen(editable.chat.id)
         x = await input.download()
