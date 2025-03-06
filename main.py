@@ -134,7 +134,18 @@ async def upload(bot: Client, m: Message):
     
     
     await editable.delete()
-        
+    try:
+            links = []
+            videocount = 0
+            pdfcount = 0
+            with open(x, "r", encoding="utf-8") as f:
+                for line in f:
+                    link = line.strip().split("://", 1)
+                    links.append(link)
+                    if ".pdf" in link[1]:
+                        pdfcount += 1 
+                    else:
+                        videocount += 1 
         
         
             
@@ -149,7 +160,7 @@ async def upload(bot: Client, m: Message):
     
     batch_message = await bot.send_message(
     chat_id=editable.chat.id,
-    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> "
+    text=f"**Batch Name:** <blockquote>{b_name}</blockquote>\n\n **Total links :** <blockquote>`{len(links)}`</blockquote> \n Total pdf - {len(pdfcount)}"
     )
     await bot.pin_chat_message(chat_id=editable.chat.id, message_id=batch_message.id, both_sides=True)
         
