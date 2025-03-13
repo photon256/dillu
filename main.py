@@ -12,7 +12,7 @@ import asyncio
 import requests
 import subprocess
 import core as helper
-import ytdlp
+import yt_dlp
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN, OWNER
 from init import bot 
