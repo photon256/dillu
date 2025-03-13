@@ -197,11 +197,7 @@ async def upload(bot: Client, m: Message):
              url =   "https://madxapi-d0cbf6ac738c.herokuapp.com/" + id + f"/master.m3u8?token={token}"
             name1 = links[i][0].replace("\t", "").replace(":", "").replace("/", "").replace("+", "").replace("#", "").replace("|", "").replace("@", "").replace("*", "").replace(".", "").replace("https", "").replace("http", "").strip()
             name = f'{str(count).zfill(3)}) {name1[:60]}'
-            if "transcoded-videos-v2.classx.co.in" in url:
-                # Add special headers for classx.co.in domain
-                cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4" --no-check-certificates --downloader aria2c --downloader-args "aria2c: --check-certificate=false --continue=true --retry-wait=10 --max-tries=10 -x 16 -s 16 -k 1M"'
-            else:
-                cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4" --downloader aria2c --downloader-args "aria2c: -x 16 -s 16 -k 1M"'
+            
 
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
