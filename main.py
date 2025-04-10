@@ -180,9 +180,10 @@ async def upload(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
             
-            elif "classplusapp.com/drm/" in url:
+            elif "media-cdn.classplusapp.com/drm" in url:
                 url = f'https://master-api-v3.vercel.app/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiIsInRnX3VzZXJuYW1lIjoiTm90aGluZyAobmFtZSkiLCJpYXQiOjE3NDE3MTg2NzF9.vQxTsjJJHtFFnkbffx7GtenFSXHCKAQjwuEoqjxz6pI'
                 mpd, keys = helper.get_mps_and_keys(url)
+                print(mpd)
                 url = mpd
                 keys_string = " ".join([f"--key {key}" for key in keys])
                 
