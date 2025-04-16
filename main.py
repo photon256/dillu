@@ -193,17 +193,7 @@ async def upload(bot: Client, m: Message):
              a = url.replace('*abcdefg', '')
              url = a
 
-            elif 'drmcdni' in url or 'drm/wv' in url:
-                Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
-                prog = await m.reply_text(Show)
-                res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
-                time.sleep(2)
-                filename = res_file
-                await prog.delete(True)
-                await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                count += 1
-                time.sleep(3)
-                continue
+            
             elif '/ivs' in url:
                 url = f"https://master-api-v2.onrender.com/adda-mp4-m3u8?url={url}" + "&token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg&quality=480"
             elif '/master.mpd' in url:
@@ -297,6 +287,21 @@ async def upload(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue
+                elif 'drmcdni' in url or 'drm/wv' in url:
+                    
+                    Show = f"<blockquote>**я╝дя╜Пя╜Чя╜Оя╜Мя╜Пя╜Бя╜Дя╜Йя╜Оя╜З... ┬╗**\n\n**Name:{name}**\nQuality ┬╗ {raw_text2}</blockquote>"
+                    prog = await m.reply_text(Show)
+                    
+                    res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
+                    time.sleep(2)
+                    filename = res_file
+                    await prog.delete(True)
+                    
+                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                    
+                    count += 1
+                    time.sleep(3)
+                    continue
                 elif ".pdf" in url:
                     try:
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
