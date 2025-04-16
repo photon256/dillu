@@ -18,7 +18,7 @@ import tgcrypto
 import subprocess
 import concurrent.futures
 import mmap
-
+from pathlib import Path
 from utils import progress_bar
 
 from pyrogram import Client, filters
