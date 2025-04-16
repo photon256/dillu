@@ -177,7 +177,7 @@ async def upload(bot: Client, m: Message):
             
             elif "media-cdn.classplusapp.com/drm" in url:
                 url = f'https://master-api-v3.vercel.app/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiIsInRnX3VzZXJuYW1lIjoiTm90aGluZyAobmFtZSkiLCJpYXQiOjE3NDE3MTg2NzF9.vQxTsjJJHtFFnkbffx7GtenFSXHCKAQjwuEoqjxz6pI'
-                mpd, keys = helper.get_mps_and_keys(url)
+                mpd, keys = await helper.get_mps_and_keys(url)
                 print(mpd)
                 url = mpd
                 keys_string = " ".join([f"--key {key}" for key in keys])
@@ -305,20 +305,7 @@ async def upload(bot: Client, m: Message):
               
                         
                         
-                elif 'drmcdni' in url or 'drm/wv' in url:
-                    Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
-                    prog = await m.reply_text(Show)
-                    
-                    res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
-                    time.sleep(2)
-                    filename = res_file
-                    await prog.delete(True)
-                    
-                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                    
-                    count += 1
-                    time.sleep(3)
-                    continue
+                
                     
                 else:
                     Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
