@@ -175,19 +175,7 @@ async def upload(bot: Client, m: Message):
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
 
             
-            elif "media-cdn.classplusapp.com/drm" in url:
-                url = f'https://master-api-v3.vercel.app/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiIsInRnX3VzZXJuYW1lIjoiTm90aGluZyAobmFtZSkiLCJpYXQiOjE3NDE3MTg2NzF9.vQxTsjJJHtFFnkbffx7GtenFSXHCKAQjwuEoqjxz6pI'
-                mpd, keys = await helper.get_mps_and_keys(url)
-                print(mpd)
-                url = mpd
-                keys_string = " ".join([f"--key {key}" for key in keys])
-                res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
-                time.sleep(2)
-                filename = res_file
-                await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                count += 1
-                time.sleep(3)
-                continue
+            
                 
             elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
                 url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}).json()['url']
@@ -288,6 +276,19 @@ async def upload(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue
+                elif "media-cdn.classplusapp.com/drm" in url:
+                    url = f'https://master-api-v3.vercel.app/classp?url={url}&authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTk5NjAzOTk1NiIsInRnX3VzZXJuYW1lIjoiTm90aGluZyAobmFtZSkiLCJpYXQiOjE3NDE3MTg2NzF9.vQxTsjJJHtFFnkbffx7GtenFSXHCKAQjwuEoqjxz6pI'
+                    mpd, keys = await helper.get_mps_and_keys(url)
+                    print(mpd)
+                    url = mpd
+                    keys_string = " ".join([f"--key {key}" for key in keys])
+                    res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
+                    time.sleep(2)
+                    filename = res_file
+                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                    count += 1
+                    time.sleep(3)
+                    continue
                 elif ".pdf" in url:
                     try:
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
