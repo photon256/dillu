@@ -181,6 +181,13 @@ async def upload(bot: Client, m: Message):
                 print(mpd)
                 url = mpd
                 keys_string = " ".join([f"--key {key}" for key in keys])
+                res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
+                time.sleep(2)
+                filename = res_file
+                await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                count += 1
+                time.sleep(3)
+                continue
                 
             elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
                 url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}).json()['url']
