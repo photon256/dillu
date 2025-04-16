@@ -30,7 +30,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 @bot.on_message(filters.command(["start"]) & filters.user(OWNER))
 async def start(bot: Client, m: Message):
-    await m.reply_text(f"<blockquote>Hello ЁЯСЛ\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</blockquote>")
+    await m.reply_text(f"<blockquote>Hello 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</blockquote>")
 
 
 @bot.on_message(filters.command("stop"))
@@ -107,7 +107,7 @@ async def upload(bot: Client, m: Message):
     
     raw_text3 = appx.split("\n")[2]
     
-    highlighter  = "я╕П<blockquote>DildaarYaaraЁЯТЪтБктБм</blockquote>тБотБотБо"
+    highlighter  = "️<blockquote>DildaarYaara💚⁪⁬</blockquote>⁮⁮⁮"
     if raw_text3 == '0':
         MR = highlighter 
     else:
@@ -213,15 +213,15 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [ЁЯУ╜я╕П]Video Title :** {ЁЭЧ╗ЁЭЧоЁЭЧ║ЁЭЧ▓ЁЭЯн} {MR}.mkv\n\n<blockquote>ЁЯФ╖Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [ЁЯУБ] Pdf_Title : {ЁЭЧ╗ЁЭЧоЁЭЧ║ЁЭЧ▓ЁЭЯн} {MR}.pdf \n\n**Batch Name** : <blockquote>**{b_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n<blockquote>🔷Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**Batch Name** : <blockquote>**{b_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a
                      key = k
                      try:
                       	if ".pdf" in a:
-                      		Show = f"**я╝дя╜Пя╜Чя╜Оя╜Мя╜Пя╜Бя╜Дя╜Йя╜Оя╜З...**\n\nЁЯУЭName ┬╗ {name}\nтЭДQuality ┬╗ {raw_text2}"
+                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ...**\n\n📝Name » {name}\n❄Quality » {raw_text2}"
                       		prog = await m.reply_text(Show)
                       		file_path = await helper.download_file(url, name)
                       		copy = helper.decrypt_file(file_path, key)
@@ -238,7 +238,7 @@ async def upload(bot: Client, m: Message):
                       
                        
                       	else:
-                      		Show = f"**я╝дя╜Пя╜Чя╜Оя╜Мя╜Пя╜Бя╜Дя╜Йя╜Оя╜З... ┬╗**\n\n**Name:{name}**\nQuality ┬╗ {raw_text2}"
+                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
                       		prog = await m.reply_text(Show)
                             
                       		file_path = await helper.download_file(url, name)
@@ -299,7 +299,7 @@ async def upload(bot: Client, m: Message):
                         
                         
                 elif 'drmcdni' in url or 'drm/wv' in url:
-                    Show = f"<blockquote>**я╝дя╜Пя╜Чя╜Оя╜Мя╜Пя╜Бя╜Дя╜Йя╜Оя╜З... ┬╗**\n\n**Name:{name}**\nQuality ┬╗ {raw_text2}</blockquote>"
+                    Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
                     prog = await m.reply_text(Show)
                     
                     res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
@@ -314,7 +314,7 @@ async def upload(bot: Client, m: Message):
                     continue
                     
                 else:
-                    Show = f"<blockquote>**я╝дя╜Пя╜Чя╜Оя╜Мя╜Пя╜Бя╜Дя╜Йя╜Оя╜З... ┬╗**\n\n**Name:{name}**\nQuality ┬╗ {raw_text2}</blockquote>"
+                    Show = f"<blockquote>**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}</blockquote>"
                     prog = await m.reply_text(Show)
                     
                     res_file = await helper.download_video(url, cmd, name)
@@ -330,17 +330,17 @@ async def upload(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(
-                    f"**downloading Failed**\n{str(e)}\n**Name** ┬╗ {name}/n URL : {url}"
+                    f"**downloading Failed**\n{str(e)}\n**Name** » {name}/n URL : {url}"
                 )
                 continue
 
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text("<blockquote>**Batch Completed**тЬЕ</blockquote>")
+    await m.reply_text("<blockquote>**Batch Completed**✅</blockquote>")
 
 
 
 
 
 bot.run()
-    
+        
