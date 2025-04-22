@@ -8,6 +8,10 @@ import aiohttp
 import requests
 import subprocess
 import core as helper
+import base64
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+from base64 import b64decode
 import yt_dlp
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN, OWNER
