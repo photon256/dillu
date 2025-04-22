@@ -291,7 +291,7 @@ async def upload(bot: Client, m: Message):
                         time.sleep(e.x)
                         continue
                 elif "^" in url:
-                    a, k = url.split("*", 1)
+                    a, k = url.split("^", 1)
                     url = a
                     key = k
                     await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
