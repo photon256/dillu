@@ -25,6 +25,31 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
+async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                if response.status != 200:
+                    await m.reply_text(f"❌ Failed to download file: {response.status}")
+                    return
+                encrypted_data = await response.read()
+
+        key_bytes = key.encode("utf-8")
+        encrypted_data = base64.b64decode(encrypted_data)
+        iv = encrypted_data[:16]
+        cipher = AES.new(key_bytes, AES.MODE_CBC, iv)
+        decrypted_data = unpad(cipher.decrypt(encrypted_data[16:]), AES.block_size)
+
+        file_path = f"{name}.pdf"
+
+        async with aiofiles.open(file_path, "wb") as f:
+            await f.write(decrypted_data)
+
+        await m.reply_document(file_path, caption=cc1)
+        os.remove(file_path)
+
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {str(e)}")
 
 
 
@@ -265,6 +290,11 @@ async def upload(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue
+                elif "^" in url:
+                    a, k = url.split("*", 1)
+                    url = a
+                    key = k
+                    await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
                 elif ".doc" in url:
                     hdr = {"Host": "store.adda247.com", "x-auth-token": "fpoa43edty5", "x-jwt-token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg", "range": "bytes=0-", "referer": "https://store.adda247.com", "user-agent": "okhttp/4.9.3"}
                     try:
