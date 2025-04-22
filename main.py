@@ -53,6 +53,8 @@ async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
 
         await m.reply_document(file_path, caption=cc1)
         os.remove(file_path)
+        count += 1
+        time.sleep(2)
 
     except Exception as e:
         await m.reply_text(f"❌ Error: {str(e)}")
