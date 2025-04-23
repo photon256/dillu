@@ -53,8 +53,7 @@ async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
 
         await m.reply_document(file_path, caption=cc1)
         os.remove(file_path)
-        count += 1
-        time.sleep(2)
+        
 
     except Exception as e:
         await m.reply_text(f"❌ Error: {str(e)}")
@@ -303,6 +302,8 @@ async def upload(bot: Client, m: Message):
                     url = a
                     key = k
                     await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
+                    count += 1
+                    time.sleep(2)
                 elif ".doc" in url:
                     hdr = {"Host": "store.adda247.com", "x-auth-token": "fpoa43edty5", "x-jwt-token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg", "range": "bytes=0-", "referer": "https://store.adda247.com", "user-agent": "okhttp/4.9.3"}
                     try:
