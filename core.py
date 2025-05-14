@@ -158,6 +158,16 @@ async def aio(url,name):
     return k
 
 
+async def zoom_download(url, name):
+    ka = f'{name}'.mp4
+    try:
+        subprocess.run(['aria2c', url, '-o', ka], check=True)
+        print(f"Downloaded using aria2c: {ka}")
+        return ka
+    except Exception:
+        pass
+    print(f"All download methods failed for {url}")
+    return None
 async def download(url, name):
     if ".pdf" in url:
     	ka = f'{name}.pdf'
@@ -317,7 +327,16 @@ async def download_video(url,cmd, name):
     except FileNotFoundError as exc:
         return os.path.isfile.splitext[0] + "." + "mp4"
 
-
+async def send_videoo(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
+    reply = await m.reply_text(f"Uploading » `{name}`")
+    
+    start_time = time.time()
+    await m.reply_video(ka,caption=cc1)
+    count+=1
+    await reply.delete (True)
+    
+    os.remove(ka)
+    time.sleep(3) 
 async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     reply = await m.reply_text(f"Uploading » `{name}`")
     
