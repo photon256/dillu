@@ -297,6 +297,17 @@ async def upload(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue
+                elif "us06web.zoom.us" in url:
+                    try:
+                        ka = await helper.download(url, name)
+                        copy = await bot.send_videos(chat_id=m.chat.id,document=ka, caption=cc1)
+                        count+=1
+                        os.remove(ka)
+                        time.sleep(2)
+                    except FloodWait as e:
+                        await m.reply_text(str(e))
+                        time.sleep(e.x)
+                        continue
                 elif "^" in url:
                     a, k = url.split("^", 1)
                     url = a
