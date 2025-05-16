@@ -49,46 +49,70 @@ async def compute_sha256(file_path):
     return sha256.hexdigest()
 
 async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper):
-    Show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName:{name}\nQuality » {raw_text2}</blockquote>"
-    prog = await m.reply_text(Show)
+    try:
+        # Step 1: Check by filename (fast deduplication)
+        existing = collection.find_one({"name": name})
+        if existing:
+            await bot.get_chat(DUMP_CHAT)  # Make sure bot knows the peer
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=existing["dump_msg_id"]
+            )
+            print(f"✅ File '{name}' matched by name. Forwarded from dump.")
+            return
 
-    # Try to guess hash from URL if you support pre-hashing (e.g., magnet or filename hash)
-    # Otherwise: temporary fast download to memory (skipped here)
+        # Step 2: Show progress message
+        show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName: {name}\nQuality » {raw_text2}</blockquote>"
+        prog = await m.reply_text(show)
 
-    # Download video file to get hash
-    res_file = await helper.download_video(url, cmd, name)
-    file_hash = await compute_sha256(res_file)
+        # Step 3: Download video
+        filename = await helper.download_video(url, cmd, name)
 
-    # Check in database
-    entry = collection.find_one({"hash": file_hash})
-    if entry:
+        # Step 4: Hash and check by hash
+        file_hash = await compute_sha256(filename)
+        hash_entry = collection.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ File '{name}' matched by hash. Forwarded from dump.")
+            return
+
+        # Step 5: Send to user
         await prog.delete()
-        await bot.copy_message(
-            chat_id=m.chat.id,
-            from_chat_id=DUMP_CHAT,
-            message_id=entry["dump_msg_id"]
+        sent_msg = await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+        if sent_msg is None:
+            await m.reply_text("❌ Upload failed.")
+            os.remove(filename)
+            return
+
+        # Step 6: Copy to dump
+        await bot.get_chat(DUMP_CHAT)
+        dump_msg = await bot.copy_message(
+            chat_id=DUMP_CHAT,
+            from_chat_id=m.chat.id,
+            message_id=sent_msg.id
         )
-        print("✅ Duplicate found. Skipping upload.")
-        os.remove(res_file)  # Optional: clean up
-        return
 
-    # If not found, continue with upload
-    await prog.delete()
-    msg = await helper.send_vid(bot, m, cc, res_file, thumb, name, prog)
+        # Step 7: Store metadata in DB
+        collection.insert_one({
+            "name": name,
+            "hash": file_hash,
+            "dump_msg_id": dump_msg.id
+        })
 
-    # Copy uploaded video to dump and save hash
-    dump_msg = await bot.copy_message(
-        chat_id=DUMP_CHAT,
-        from_chat_id=m.chat.id,
-        message_id=msg.id
-    )
-    collection.insert_one({
-        "hash": file_hash,
-        "dump_msg_id": dump_msg.id
-    })
-
-    os.remove(res_file)  # Optional cleanup
-    print("🆕 New video uploaded and stored.")
+        os.remove(filename)
+        print(f"🆕 Uploaded '{name}' to user and dump. Hash saved.")
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {e}")
+        print(f"[ERROR] {e}")
 async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
     try:
         async with aiohttp.ClientSession() as session:
@@ -302,8 +326,8 @@ async def upload(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} {MR}.mkv\n\n<blockquote>🔷Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
-                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} {MR}.pdf \n\n**Batch Name** : <blockquote>**{b_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
+                cc = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📽️]Video Title :** {𝗻𝗮𝗺𝗲𝟭} .mkv\n\n<blockquote>🔷Batch Name: {b_name}</blockquote>\n\n **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
+                cc1 = f'**Total Downloaded :** {str(count).zfill(3)} \n\n [📁] Pdf_Title : {𝗻𝗮𝗺𝗲𝟭} .pdf \n\n**Batch Name** : <blockquote>**{b_name}**</blockquote>\n\n  **Downloaded By:** : <blockquote>**{MR}**</blockquote>'
                 if "*" in url:
                      a, k = url.split("*", 1)
                      url = a
