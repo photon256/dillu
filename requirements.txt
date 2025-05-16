@@ -8,6 +8,7 @@ Pillow
 pycryptodome
 pyrofork
 PySocks
+pymongo
 python-dotenv
 requests
 soupsieve
