@@ -57,7 +57,7 @@ async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper
 
     # Download video file to get hash
     res_file = await helper.download_video(url, cmd, name)
-    file_hash = await compute_sha256(filename)
+    file_hash = await compute_sha256(res_file)
 
     # Check in database
     entry = collection.find_one({"hash": file_hash})
