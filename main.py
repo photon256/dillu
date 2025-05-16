@@ -56,6 +56,7 @@ async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper
             await bot.get_chat(DUMP_CHAT)  # Make sure bot knows the peer
             await bot.copy_message(
                 chat_id=m.chat.id,
+                caption=cc,
                 from_chat_id=DUMP_CHAT,
                 message_id=existing["dump_msg_id"]
             )
