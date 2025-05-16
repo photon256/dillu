@@ -414,6 +414,8 @@ async def upload(bot: Client, m: Message):
                     
                 else:
                     await download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper)
+                    count += 1
+                    await asyncio.sleep(2)
                     
 
             except Exception as e:
