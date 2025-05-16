@@ -68,8 +68,8 @@ async def cw_pdf_store(bot, m, url, cc1, name, helper):
         prog = await m.reply_text(show)
 
         # 3. Download document
-        ka = await helper.download(url, name)
-        filename =ka
+        filename = await helper.download(url, name)
+        
 
         
 
