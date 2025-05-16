@@ -115,7 +115,7 @@ async def cw_pdf_store(bot, m, url, cc1, name):
     except Exception as e:
         await m.reply_text(f"❌ Error: {e}")
         print(f"[ERROR - DOC] {e}")
-async def encrypted_video(bot, m, url, cmd, name, raw_text2, cc, thumb, helper):
+async def encrypted_video(bot, m, url, key, cmd, name, raw_text2, cc, thumb, helper):
     try:
         # Step 1: Check by filename (fast deduplication)
         existing = collection.find_one({"name": name})
@@ -359,7 +359,7 @@ async def pdf_store(bot, m, url, cc1, name):
 
         # 5. Send document to user
         await prog.delete()
-        sent_msg = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+        sent_msg = await bot.send_document(chat_id=m.chat.id, document= filename, caption=cc1)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
             os.remove(filename)
@@ -676,7 +676,7 @@ async def upload(bot: Client, m: Message):
                       
                        
                       	else:
-                      		await encrypted_video(bot, m, url, cmd, name, raw_text2, cc, thumb, helper)
+                      		await encrypted_video(bot, m, url, key, cmd, name, raw_text2, cc, thumb, helper)
                       		count += 1
                       		await asyncio.sleep(2)
                      except FloodWait as e:
