@@ -75,7 +75,7 @@ async def cw_pdf_store(bot, m, url, cc1, name, helper):
 
         # 5. Send document to user
         await prog.delete()
-        sent_msg = await bot.send_document(chat_id=m.chat.id, document=ka, caption=cc1)
+        sent_msg = await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
             os.remove(filename)
