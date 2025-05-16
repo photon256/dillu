@@ -49,7 +49,7 @@ async def compute_sha256(file_path):
             sha256.update(chunk)
     return sha256.hexdigest()
 
-async def cw_pdf_store(bot, m, url, cc1, name):
+async def cw_pdf_store(bot, m, url, cc1, name, helper):
     try:
         # 1. Check by filename
         existing = collection_doc.find_one({"name": name})
@@ -685,7 +685,7 @@ async def upload(bot: Client, m: Message):
                       continue
                 
                 elif "drive" in url or ".ws" in url or "cwmediabkt99.crwilladmin.com" in url or ".json" in url:
-                    await cw_pdf_store(bot, m, url, cc1, name)
+                    await cw_pdf_store(bot, m, url, cc1, name, helper)
                     count += 1
                     await asyncio.sleep(2)
                 
@@ -714,7 +714,7 @@ async def upload(bot: Client, m: Message):
                 
                 
                 elif ".pdf" in url:
-                    await pdf_store(bot, m, url, cc1, name)
+                    await cw_pdf_store(bot, m, url, cc1, name, helper)
                     count += 1
                     await asyncio.sleep(2)
                     continue
