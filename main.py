@@ -71,20 +71,7 @@ async def cw_pdf_store(bot, m, url, cc1, name, helper):
         ka = await helper.download(url, name)
         filename =ka
 
-        # 4. Compute hash
-        file_hash = compute_sha256(filename)
-        hash_entry = collection_doc.find_one({"hash": file_hash})
-        if hash_entry:
-            await prog.delete()
-            await bot.get_chat(DUMP_CHAT)
-            await bot.copy_message(
-                chat_id=m.chat.id,
-                from_chat_id=DUMP_CHAT,
-                message_id=hash_entry["dump_msg_id"]
-            )
-            os.remove(filename)
-            print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
-            return
+        
 
         # 5. Send document to user
         await prog.delete()
@@ -341,19 +328,7 @@ async def pdf_store(bot, m, url, cc1, name):
         filename =file_path
 
         # 4. Compute hash
-        file_hash = compute_sha256(filename)
-        hash_entry = collection_doc.find_one({"hash": file_hash})
-        if hash_entry:
-            await prog.delete()
-            await bot.get_chat(DUMP_CHAT)
-            await bot.copy_message(
-                chat_id=m.chat.id,
-                from_chat_id=DUMP_CHAT,
-                message_id=hash_entry["dump_msg_id"]
-            )
-            os.remove(filename)
-            print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
-            return
+        
 
         # 5. Send document to user
         await prog.delete()
