@@ -407,7 +407,7 @@ async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
         async with aiofiles.open(file_path, "wb") as f:
             await f.write(decrypted_data)
 
-        return file_path
+        
         
         
 
