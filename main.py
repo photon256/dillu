@@ -270,9 +270,9 @@ async def encrypted_pdf_store(bot, m, url, cc1, name, helper, key):
         prog = await m.reply_text(show)
 
         # 3. Download document
-        file_path = await helper.download_file(url, name)
+        filename = await helper.download_file(url, name)
         copy = helper.decrypt_file(file_path, key)
-        filename = file_path
+        
         
 
         # 4. Compute hash
@@ -338,10 +338,24 @@ async def pdf_store(bot, m, url, cc1, name):
         prog = await m.reply_text(show)
 
         # 3. Download document
-        await helper.download_file(url, name)
-        filename =file_path
+        filename = await helper.download_file(url, name)
+        
 
-        # 4. Compute hash
+        
+        # Step 4: Hash and check by hash
+        file_hash = await compute_sha256(filename)
+        hash_entry = collection.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ File '{name}' matched by hash. Forwarded from dump.")
+            return
         
 
         # 5. Send document to user
@@ -420,14 +434,14 @@ async def new_encryptedpdf(bot, m, url, cc1, name, key):
         prog = await m.reply_text(show)
 
         # 3. Download document
-        await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
-        filename = file_path
+        filename = await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
+        
         	
         	
         
 
         # 4. Compute hash
-        file_hash = compute_sha256(filename)
+        file_hash = await compute_sha256(filename)
         hash_entry = collection_doc.find_one({"hash": file_hash})
         if hash_entry:
             await prog.delete()
