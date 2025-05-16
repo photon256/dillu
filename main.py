@@ -41,9 +41,12 @@ mongo_client = MongoClient(MONGO_URI)
 db = mongo_client["video_bot"]
 collection = db["videos"]
 
-async def compute_file_hash(filename):
-    with open(filename, "rb") as f:
-        return hashlib.sha256(f.read()).hexdigest()
+async def compute_sha256(file_path):
+    sha256 = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            sha256.update(chunk)
+    return sha256.hexdigest()
 
 async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper):
     Show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName:{name}\nQuality » {raw_text2}</blockquote>"
@@ -54,7 +57,7 @@ async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper
 
     # Download video file to get hash
     res_file = await helper.download_video(url, cmd, name)
-    file_hash = await compute_file_hash(res_file)
+    file_hash = await compute_sha256(filename)
 
     # Check in database
     entry = collection.find_one({"hash": file_hash})
