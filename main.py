@@ -34,7 +34,7 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # MongoDB setup
-MONGO_URI = os.getenv("MONGO_URI, "mongodb+srv://abcd:abcdeas@cluster0.flillxf.mongodb.net/?retryWrites=true&w=majority")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://abcd:abcdeas@cluster0.flillxf.mongodb.net/?retryWrites=true&w=majority")
 DUMP_CHAT = os.getenv("DUMP_CHAT", "-1002649840760")  # e.g., '@dump_channel'
 
 mongo_client = MongoClient(MONGO_URI)
