@@ -337,10 +337,8 @@ async def pdf_store(bot, m, url, cc1, name):
         prog = await m.reply_text(show)
 
         # 3. Download document
-        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-        os.system(download_cmd)
-        filename =f'{name}.pdf'
+        await helper.download_file(url, name)
+        filename =file_path
 
         # 4. Compute hash
         file_hash = compute_sha256(filename)
