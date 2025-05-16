@@ -40,6 +40,7 @@ DUMP_CHAT =  -1002649840760 # e.g., '@dump_channel'
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client["video_bot"]
 collection = db["videos"]
+collection_doc= db["documents"]
 
 async def compute_sha256(file_path):
     sha256 = hashlib.sha256()
@@ -48,6 +49,140 @@ async def compute_sha256(file_path):
             sha256.update(chunk)
     return sha256.hexdigest()
 
+async def cw_pdf_store(bot, m, url, cc1, name):
+    try:
+        # 1. Check by filename
+        existing = collection_doc.find_one({"name": name})
+        if existing:
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=existing["dump_msg_id"]
+            )
+            print(f"✅ Document '{name}' matched by name. Forwarded from dump.")
+            return
+
+        # 2. Show download message
+        show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ Document... »\n\nName: {name}</blockquote>"
+        prog = await m.reply_text(show)
+
+        # 3. Download document
+        ka = await helper.download(url, name)
+        filename =ka
+
+        # 4. Compute hash
+        file_hash = compute_sha256(filename)
+        hash_entry = collection_doc.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
+            return
+
+        # 5. Send document to user
+        await prog.delete()
+        sent_msg = await bot.send_document(chat_id=m.chat.id, document=ka, caption=cc1)
+        if sent_msg is None:
+            await m.reply_text("❌ Upload failed.")
+            os.remove(filename)
+            return
+
+        # 6. Forward to dump
+        await bot.get_chat(DUMP_CHAT)
+        dump_msg = await bot.copy_message(
+            chat_id=DUMP_CHAT,
+            from_chat_id=m.chat.id,
+            message_id=sent_msg.id
+        )
+
+        # 7. Store in DB
+        collection_doc.insert_one({
+            "name": name,
+            "hash": file_hash,
+            "dump_msg_id": dump_msg.id
+        })
+
+        os.remove(filename)
+        print(f"🆕 Document '{name}' uploaded and stored.")
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {e}")
+        print(f"[ERROR - DOC] {e}")
+async def encrypted_video(bot, m, url, cmd, name, raw_text2, cc, thumb, helper):
+    try:
+        # Step 1: Check by filename (fast deduplication)
+        existing = collection.find_one({"name": name})
+        if existing:
+            await bot.get_chat(DUMP_CHAT)  # Make sure bot knows the peer
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                caption=cc,
+                from_chat_id=DUMP_CHAT,
+                message_id=existing["dump_msg_id"]
+            )
+            print(f"✅ File '{name}' matched by name. Forwarded from dump.")
+            return
+
+        # Step 2: Show progress message
+        show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ... »\n\nName: {name}\nQuality » {raw_text2}</blockquote>"
+        prog = await m.reply_text(show)
+
+        # Step 3: Download video
+        file_path = await helper.download_file(url, name)
+        copy = helper.decrypt_file(file_path, key)
+        filename = file_path
+
+        # Step 4: Hash and check by hash
+        file_hash = await compute_sha256(filename)
+        hash_entry = collection.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ File '{name}' matched by hash. Forwarded from dump.")
+            return
+
+        # Step 5: Send to user
+        await prog.delete()
+        sent_msg = await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+        if sent_msg is None:
+            await m.reply_text("❌ Upload failed.")
+            os.remove(filename)
+            return
+
+        # Step 6: Copy to dump
+        await bot.get_chat(DUMP_CHAT)
+        dump_msg = await bot.copy_message(
+            chat_id=DUMP_CHAT,
+            from_chat_id=m.chat.id,
+            message_id=sent_msg.id
+        )
+
+        # Step 7: Store metadata in DB
+        collection.insert_one({
+            "name": name,
+            "hash": file_hash,
+            "dump_msg_id": dump_msg.id
+        })
+
+        os.remove(filename)
+        print(f"🆕 Uploaded '{name}' to user and dump. Hash saved.")
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {e}")
+        print(f"[ERROR] {e}")
 async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper):
     try:
         # Step 1: Check by filename (fast deduplication)
@@ -114,6 +249,143 @@ async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper
     except Exception as e:
         await m.reply_text(f"❌ Error: {e}")
         print(f"[ERROR] {e}")
+
+async def encrypted_pdf_store(bot, m, url, cc1, name, helper, key):
+    try:
+        # 1. Check by filename
+        existing = collection_doc.find_one({"name": name})
+        if existing:
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=existing["dump_msg_id"]
+            )
+            print(f"✅ Document '{name}' matched by name. Forwarded from dump.")
+            return
+
+        # 2. Show download message
+        show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ Document... »\n\nName: {name}</blockquote>"
+        prog = await m.reply_text(show)
+
+        # 3. Download document
+        file_path = await helper.download_file(url, name)
+        copy = helper.decrypt_file(file_path, key)
+        filename = file_path
+        
+
+        # 4. Compute hash
+        file_hash = compute_sha256(filename)
+        hash_entry = collection_doc.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
+            return
+
+        # 5. Send document to user
+        await prog.delete()
+        sent_msg = await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
+        if sent_msg is None:
+            await m.reply_text("❌ Upload failed.")
+            os.remove(filename)
+            return
+
+        # 6. Forward to dump
+        await bot.get_chat(DUMP_CHAT)
+        dump_msg = await bot.copy_message(
+            chat_id=DUMP_CHAT,
+            from_chat_id=m.chat.id,
+            message_id=sent_msg.id
+        )
+
+        # 7. Store in DB
+        collection_doc.insert_one({
+            "name": name,
+            "hash": file_hash,
+            "dump_msg_id": dump_msg.id
+        })
+
+        os.remove(filename)
+        print(f"🆕 Document '{name}' uploaded and stored.")
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {e}")
+        print(f"[ERROR - DOC] {e}")
+async def pdf_store(bot, m, url, cc1, name):
+    try:
+        # 1. Check by filename
+        existing = collection_doc.find_one({"name": name})
+        if existing:
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=existing["dump_msg_id"]
+            )
+            print(f"✅ Document '{name}' matched by name. Forwarded from dump.")
+            return
+
+        # 2. Show download message
+        show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ Document... »\n\nName: {name}</blockquote>"
+        prog = await m.reply_text(show)
+
+        # 3. Download document
+        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
+        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
+        os.system(download_cmd)
+        filename =f'{name}.pdf'
+
+        # 4. Compute hash
+        file_hash = compute_sha256(filename)
+        hash_entry = collection_doc.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
+            return
+
+        # 5. Send document to user
+        await prog.delete()
+        sent_msg = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+        if sent_msg is None:
+            await m.reply_text("❌ Upload failed.")
+            os.remove(filename)
+            return
+
+        # 6. Forward to dump
+        await bot.get_chat(DUMP_CHAT)
+        dump_msg = await bot.copy_message(
+            chat_id=DUMP_CHAT,
+            from_chat_id=m.chat.id,
+            message_id=sent_msg.id
+        )
+
+        # 7. Store in DB
+        collection_doc.insert_one({
+            "name": name,
+            "hash": file_hash,
+            "dump_msg_id": dump_msg.id
+        })
+
+        os.remove(filename)
+        print(f"🆕 Document '{name}' uploaded and stored.")
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {e}")
+        print(f"[ERROR - DOC] {e}")
 async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
     try:
         async with aiohttp.ClientSession() as session:
@@ -134,15 +406,83 @@ async def abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m):
         async with aiofiles.open(file_path, "wb") as f:
             await f.write(decrypted_data)
 
-        await m.reply_document(file_path, caption=cc1)
-        os.remove(file_path)
+        return file_path
+        
         
 
     except Exception as e:
-        await m.reply_text(f"❌ Error: {str(e)}")
+        print("Error")
 
 
+async def new_encryptedpdf(bot, m, url, cc1, name, key):
+    try:
+        # 1. Check by filename
+        existing = collection_doc.find_one({"name": name})
+        if existing:
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=existing["dump_msg_id"]
+            )
+            print(f"✅ Document '{name}' matched by name. Forwarded from dump.")
+            return
 
+        # 2. Show download message
+        show = f"<blockquote>Ｄｏｗｎｌｏａｄｉｎｇ Document... »\n\nName: {name}</blockquote>"
+        prog = await m.reply_text(show)
+
+        # 3. Download document
+        await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
+        filename = file_path
+        	
+        	
+        
+
+        # 4. Compute hash
+        file_hash = compute_sha256(filename)
+        hash_entry = collection_doc.find_one({"hash": file_hash})
+        if hash_entry:
+            await prog.delete()
+            await bot.get_chat(DUMP_CHAT)
+            await bot.copy_message(
+                chat_id=m.chat.id,
+                from_chat_id=DUMP_CHAT,
+                message_id=hash_entry["dump_msg_id"]
+            )
+            os.remove(filename)
+            print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
+            return
+
+        # 5. Send document to user
+        await prog.delete()
+        sent_msg = await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
+        if sent_msg is None:
+            await m.reply_text("❌ Upload failed.")
+            os.remove(filename)
+            return
+
+        # 6. Forward to dump
+        await bot.get_chat(DUMP_CHAT)
+        dump_msg = await bot.copy_message(
+            chat_id=DUMP_CHAT,
+            from_chat_id=m.chat.id,
+            message_id=sent_msg.id
+        )
+
+        # 7. Store in DB
+        collection_doc.insert_one({
+            "name": name,
+            "hash": file_hash,
+            "dump_msg_id": dump_msg.id
+        })
+
+        os.remove(filename)
+        print(f"🆕 Document '{name}' uploaded and stored.")
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Error: {e}")
+        print(f"[ERROR - DOC] {e}")
 @bot.on_message(filters.command(["start"]) & filters.user(OWNER))
 async def start(bot: Client, m: Message):
     await m.reply_text(f"<blockquote>Hello 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</blockquote>")
@@ -288,18 +628,8 @@ async def upload(bot: Client, m: Message):
                     async with session.get(url, headers={'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9', 'Accept-Language': 'en-US,en;q=0.9', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'Pragma': 'no-cache', 'Referer': 'http://www.visionias.in/', 'Sec-Fetch-Dest': 'iframe', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'cross-site', 'Upgrade-Insecure-Requests': '1', 'User-Agent': 'Mozilla/5.0 (Linux; Android 12; RMX2121) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36', 'sec-ch-ua': '"Chromium";v="107", "Not=A?Brand";v="24"', 'sec-ch-ua-mobile': '?1', 'sec-ch-ua-platform': '"Android"',}) as resp:
                         text = await resp.text()
                         url = re.search(r"(https://.*?playlist.m3u8.*?)\"", text).group(1)
-
-            
-            
-            elif "classplusapp.com/drm/" in url:
-                url = 'https://dragoapi.vercel.app/classplus?link=' + url
-                mpd, keys = await helper.get_mps_and_keys(url)
-                url = mpd
-                keys_string = " ".join([f"--key {key}" for key in keys])  
-            
-            	
-            
-            
+            elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
+                url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}).json()['url']
             elif "cwmediabkt99.crwilladmin.com" in url:
             	url = url.replace(' ', '%20')
             elif ".pdf*abcdefg" in url:
@@ -335,16 +665,10 @@ async def upload(bot: Client, m: Message):
                      key = k
                      try:
                       	if ".pdf" in a:
-                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ...**\n\n📝Name » {name}\n❄Quality » {raw_text2}"
-                      		prog = await m.reply_text(Show)
-                      		file_path = await helper.download_file(url, name)
-                      		copy = helper.decrypt_file(file_path, key)
-                      		filename = file_path
-                      		await prog.delete(True)
-                      		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
                             
+                      		await encrypted_pdf_store(bot, m, url, cc1, name, helper, key)
                       		count += 1
-                      		time.sleep(2)
+                      		await asyncio.sleep(2)
                          
                                 
                                 
@@ -352,42 +676,26 @@ async def upload(bot: Client, m: Message):
                       
                        
                       	else:
-                      		Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
-                      		prog = await m.reply_text(Show)
-                            
-                      		file_path = await helper.download_file(url, name)
-                      		copy = helper.decrypt_file(file_path, key)
-                      		filename = file_path
-                      		await prog.delete(True)
-                      		
-                      		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                            
+                      		await encrypted_video(bot, m, url, cmd, name, raw_text2, cc, thumb, helper)
                       		count += 1
-                      		time.sleep(2)
+                      		await asyncio.sleep(2)
                      except FloodWait as e:
-                      await m.reply_text(str(e))
+                      print("Error")
                       
                       continue
                 
                 elif "drive" in url or ".ws" in url or "cwmediabkt99.crwilladmin.com" in url or ".json" in url:
-                    try:
-                        ka = await helper.download(url, name)
-                        copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
-                        count+=1
-                        os.remove(ka)
-                        time.sleep(2)
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue
+                    await cw_pdf_store(bot, m, url, cc1, name)
+                    count += 1
+                    await asyncio.sleep(2)
                 
                 elif "^" in url:
                     a, k = url.split("^", 1)
                     url = a
                     key = k
-                    await abcdefg_pdf_decrypt2(url, key, name, cc1, bot, m)
+                    await new_encryptedpdf(url, key, name, cc1, bot, m)
                     count += 1
-                    time.sleep(2)
+                    await asyncio.sleep(2)
                 elif ".doc" in url:
                     hdr = {"Host": "store.adda247.com", "x-auth-token": "fpoa43edty5", "x-jwt-token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYXdhaGFycnkyN0BnbWFpbC5jb20iLCJhdWQiOiIxMTExOTI3MSIsImlhdCI6MTczNTgyNjQ3NywiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiSEFSU0ggQmF3YSAiLCJlbWFpbCI6ImJhd2FoYXJyeTI3QGdtYWlsLmNvbSIsInBob25lIjoiODgyNTA5MzM1MiIsInVzZXJJZCI6ImFkZGEudjEuZmZjYTYyOTk5MjJmZjI0NGZlMTBlOTUyNDYxZGRiMzciLCJsb2dpbkFwaVZlcnNpb24iOjJ9.SzM7P5_6cP-yFlekONl3lTf52KWaGUdzqS4bEHHbZZGTZeQt0feOdca59hweADv3c3Sj47DRnqaUTTYe3abpEg", "range": "bytes=0-", "referer": "https://store.adda247.com", "user-agent": "okhttp/4.9.3"}
                     try:
@@ -403,44 +711,19 @@ async def upload(bot: Client, m: Message):
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue
-                elif 'drmcdni' in url or 'drm/wv' in url:
-                    Show = f"**Ｄｏｗｎｌｏａｄｉｎｇ... »**\n\n**Name:{name}**\nQuality » {raw_text2}"
-                    prog = await m.reply_text(Show)
-
-                    # Use the decrypt_and_merge_video function
-                    res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
-
-                    filename = res_file
-                    await prog.delete(True)
-                    await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                    count += 1
-                    await asyncio.sleep(1)
-                    continue
-                elif 'videos.classplusapp' in url or "tencdn.classplusapp" in url or "webvideos.classplusapp.com" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "videos.classplusapp.com" in url or "media-cdn-a.classplusapp" in url or "media-cdn.classplusapp" in url:
-                    url = requests.get(f'https://api.classplusapp.com/cams/uploader/video/jw-signed-url?url={url}', headers={'x-access-token': 'eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9'}).json()['url']
-                elif ".pdf" in url:
-                    try:
-                        cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
-                        download_cmd = f"{cmd} -R 25 --fragment-retries 25"
-                        os.system(download_cmd)
-                        copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                        count += 1
-                        os.remove(f'{name}.pdf')
-                        time.sleep(2)
-                    except FloodWait as e:
-                        await m.reply_text(str(e))
-                        time.sleep(e.x)
-                        continue
-                        
-              
-                        
-                        
                 
-                    
+                
+                elif ".pdf" in url:
+                    await pdf_store(bot, m, url, cc1, name)
+                    count += 1
+                    await asyncio.sleep(2)
+                    continue
+            
                 else:
                     await download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper)
                     count += 1
                     await asyncio.sleep(2)
+                    continue
                     
 
             except Exception as e:
