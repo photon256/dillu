@@ -386,40 +386,60 @@ async def upload_video(bot, m, filename, caption, thumb, reply):
             progress_args=(reply, start_time)
         )
 
+upload_lock = asyncio.Lock()  # Global lock
+
 async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
     await asyncio.sleep(2)
-
-    # Create thumbnail
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete()
 
     reply = await m.reply_text(f"**Uploading ...** - `{name}`")
-    thumbnail = thumb if thumb != "no" else f"{filename}.jpg"
+    thumbnail = f"{filename}.jpg" if thumb == "no" else thumb
 
-    file_size = get_file_size_mb(filename)
+    file_size_mb = os.path.getsize(filename) / (1024 * 1024)
+    dur = int(duration(filename))
+    start_time = asyncio.get_event_loop().time()
 
     try:
-        if file_size <= MAX_FILE_SIZE_MB:
+        if file_size_mb <= 2000:
             async with upload_lock:
-                await upload_video(bot, m, filename, cc, thumbnail, reply)
+                await m.reply_video(
+                    filename,
+                    caption=cc,
+                    supports_streaming=True,
+                    height=720,
+                    width=1280,
+                    thumb=thumbnail,
+                    duration=dur,
+                    progress_args=(reply, start_time)
+                )
         else:
-            # File too big — split into two
+            # Split into 2 parts using ffmpeg (already implemented earlier)
             part1 = filename.replace(".mp4", "_part1.mp4")
             part2 = filename.replace(".mp4", "_part2.mp4")
             split_video(filename, part1, part2)
 
             for i, part in enumerate([part1, part2], 1):
-                part_caption = f"{cc}\n\nPart {i}/2"
+                caption_part = f"{cc}\n\nPart {i}/2"
                 async with upload_lock:
-                    await upload_video(bot, m, part, part_caption, thumbnail, reply)
+                    await m.reply_video(
+                        part,
+                        caption=caption_part,
+                        supports_streaming=True,
+                        height=720,
+                        width=1280,
+                        thumb=thumbnail,
+                        duration=dur,
+                        progress_args=(reply, start_time)
+                    )
                 os.remove(part)
 
     except Exception as e:
-        await m.reply_text(f"Upload failed:\n`{str(e)}`")
+        await m.reply_text(f"❌ Upload failed:\n`{str(e)}`")
 
     # Clean up
-    if os.path.exists(filename):
-        os.remove(filename)
-    if os.path.exists(f"{filename}.jpg"):
-        os.remove(f"{filename}.jpg")
+    for f in [filename, f"{filename}.jpg"]:
+        if os.path.exists(f):
+            os.remove(f)
     await reply.delete()
+                       
