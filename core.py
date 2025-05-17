@@ -352,10 +352,10 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
 MAX_FILE_SIZE_MB = 2000
 upload_lock = asyncio.Lock()
 
-def get_file_size_mb(file_path):
+async def get_file_size_mb(file_path):
     return os.path.getsize(file_path) / (1024 * 1024)
 
-def split_video(input_file, part1, part2):
+async def split_video(input_file, part1, part2):
     duration_cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{input_file}"'
     total_duration = float(subprocess.check_output(duration_cmd, shell=True).decode().strip())
     half_duration = total_duration / 2
@@ -396,7 +396,7 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
 
     reply = await m.reply_text(f"**Uploading ...** - `{name}`")
     thumbnail = f"{filename}.jpg" if thumb == "no" else thumb
-    file_size = get_file_size_mb(filename)
+    file_size = await get_file_size_mb(filename)
 
     try:
         if file_size <= MAX_FILE_SIZE_MB:
@@ -404,7 +404,7 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
         else:
             part1 = filename.replace(".mp4", "_part1.mp4")
             part2 = filename.replace(".mp4", "_part2.mp4")
-            split_video(filename, part1, part2)
+            await split_video(filename, part1, part2)
 
             for i, part in enumerate([part1, part2], 1):
                 caption = f"{cc}\n\nPart {i}/2"
