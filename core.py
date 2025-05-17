@@ -352,7 +352,7 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
 MAX_FILE_SIZE_MB = 2000
 
 def get_file_size_mb(file_path):
-    return os.path.getsize(file_path)/(1024*1024)
+    return os.path.getsize(file_path)/(1024*1024)
 
 
 def split_video(input_file, part1, part2):
