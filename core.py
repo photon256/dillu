@@ -356,59 +356,61 @@ def get_file_size_mb(file_path):
 
 
 def split_video(input_file, part1, part2):
-    duration_cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{input_file}"'
-    total_duration = float(subprocess.check_output(duration_cmd, shell=True).decode().strip())
-    half_duration = total_duration / 2
+    duration_cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{input_file}"'
+    total_duration = float(subprocess.check_output(duration_cmd, shell=True).decode().strip())
+    half_duration = total_duration / 2
 
-    # Split video into two parts
-    subprocess.run(f'ffmpeg -i "{input_file}" -t {half_duration} -c copy "{part1}"', shell=True)
-    subprocess.run(f'ffmpeg -i "{input_file}" -ss {half_duration} -c copy "{part2}"', shell=True)
+    # Split video into two parts
+    subprocess.run(f'ffmpeg -i "{input_file}" -t {half_duration} -c copy "{part1}"', shell=True)
+    subprocess.run(f'ffmpeg -i "{input_file}" -ss {half_duration} -c copy "{part2}"', shell=True)
 
 async def upload_video(bot, m, filename, caption, thumb, reply, start_time):
-    dur = int(duration(filename))
-    try:
-        await m.reply_video(
-            filename,
-            caption=caption,
-            supports_streaming=True,
-            height=720,
-            width=1280,
-            thumb=thumb,
-            duration=dur,
-            progress_args=(reply, start_time)
-        )
-    except Exception:
-        await m.reply_document(
-            filename,
-            caption=caption,
-            progress=progress_bar,
-            progress_args=(reply, start_time)
-        )
+    dur = int(duration(filename))
+    try:
+        await m.reply_video(
+            filename,
+            caption=caption,
+            supports_streaming=True,
+            height=720,
+            width=1280,
+            thumb=thumb,
+            duration=dur,
+            progress_args=(reply, start_time)
+        )
+    except Exception:
+        await m.reply_document(
+            filename,
+            caption=caption,
+            progress=progress_bar,
+            progress_args=(reply, start_time)
+        )
+
 async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
-    time.sleep(2)
-    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -vframes 1 "{filename}.jpg"', shell=True)
-    await prog.delete(True)
+    time.sleep(2)
+    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -vframes 1 "{filename}.jpg"', shell=True)
+    await prog.delete(True)
 
-    reply = await m.reply_text(f"**Uploading ...** - `{name}`")
-    thumbnail = thumb if thumb != "no" else f"{filename}.jpg"
+    reply = await m.reply_text(f"**Uploading ...** - `{name}`")
+    thumbnail = thumb if thumb != "no" else f"{filename}.jpg"
 
-    file_size = get_file_size_mb(filename)
+    file_size = get_file_size_mb(filename)
 
-    if file_size <= MAX_FILE_SIZE_MB:
-        start_time = time.time()
-        await upload_video(bot, m, filename, cc, thumbnail, reply, start_time)
-    else:
-        # Split and upload in parts
-        part1 = filename.replace(".mp4", "_part1.mp4")
-        part2 = filename.replace(".mp4", "_part2.mp4")
-        split_video(filename, part1, part2)
+    if file_size <= MAX_FILE_SIZE_MB:
+        start_time = time.time()
+        await upload_video(bot, m, filename, cc, thumbnail, reply, start_time)
+    else:
+        # Split and upload in parts
+        part1 = filename.replace(".mp4", "_part1.mp4")
+        part2 = filename.replace(".mp4", "_part2.mp4")
+        split_video(filename, part1, part2)
 
-        for i, part in enumerate([part1, part2], 1):
-            part_caption = f"{cc}\n\nPart {i}/2"
-            start_time = time.time()
-            await upload_video(bot, m, part, part_caption, thumbnail, reply, start_time)
-            os.remove(part)
+        for i, part in enumerate([part1, part2], 1):
+            part_caption = f"{cc}\n\nPart {i}/2"
+            start_time = time.time()
+            await upload_video(bot, m, part, part_caption, thumbnail, reply, start_time)
+            os.remove(part)
 
-    os.remove(filename)
-    os.remove(f"{filename}.jpg")
-    await reply.delete(True)
+    os.remove(filename)
+    os.remove(f"{filename}.jpg")
+    await reply.delete(True)
+    
