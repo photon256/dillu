@@ -369,7 +369,7 @@ async def upload_video(bot, m, filename, caption, thumb, reply):
 
     try:
         async with upload_lock:
-            await m.reply_video(
+            msg = await m.reply_video(
                 filename,
                 caption=caption,
                 supports_streaming=True,
@@ -379,14 +379,16 @@ async def upload_video(bot, m, filename, caption, thumb, reply):
                 duration=dur,
                 progress_args=(reply, start_time)
             )
+            return msg
     except Exception:
         async with upload_lock:
-            await m.reply_document(
+            msg = await m.reply_document(
                 filename,
                 caption=caption,
                 progress=progress_bar,
                 progress_args=(reply, start_time)
             )
+            return msg
 
 async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
     await asyncio.sleep(2)
