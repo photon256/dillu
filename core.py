@@ -350,7 +350,7 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
 
 
 MAX_FILE_SIZE_MB = 2000
-upload_lock = asyncio.Lock()  # Prevent multiple concurrent uploads
+upload_lock = asyncio.Lock()
 
 def get_file_size_mb(file_path):
     return os.path.getsize(file_path) / (1024 * 1024)
@@ -360,86 +360,65 @@ def split_video(input_file, part1, part2):
     total_duration = float(subprocess.check_output(duration_cmd, shell=True).decode().strip())
     half_duration = total_duration / 2
 
-    # Split into two parts using copy (no re-encoding)
     subprocess.run(f'ffmpeg -i "{input_file}" -t {half_duration} -c copy "{part1}"', shell=True)
     subprocess.run(f'ffmpeg -i "{input_file}" -ss {half_duration} -c copy "{part2}"', shell=True)
 
 async def upload_video(bot, m, filename, caption, thumb, reply):
     dur = int(duration(filename))
     start_time = asyncio.get_event_loop().time()
-    try:
-        await m.reply_video(
-            filename,
-            caption=caption,
-            supports_streaming=True,
-            height=720,
-            width=1280,
-            thumb=thumb,
-            duration=dur,
-            progress_args=(reply, start_time)
-        )
-    except Exception:
-        await m.reply_document(
-            filename,
-            caption=caption,
-            progress=progress_bar,
-            progress_args=(reply, start_time)
-        )
 
-upload_lock = asyncio.Lock()  # Global lock
+    try:
+        async with upload_lock:
+            await m.reply_video(
+                filename,
+                caption=caption,
+                supports_streaming=True,
+                height=720,
+                width=1280,
+                thumb=thumb,
+                duration=dur,
+                progress_args=(reply, start_time)
+            )
+    except Exception:
+        async with upload_lock:
+            await m.reply_document(
+                filename,
+                caption=caption,
+                progress=progress_bar,
+                progress_args=(reply, start_time)
+            )
 
 async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
     await asyncio.sleep(2)
+
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:12 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete()
 
     reply = await m.reply_text(f"**Uploading ...** - `{name}`")
     thumbnail = f"{filename}.jpg" if thumb == "no" else thumb
-
-    file_size_mb = os.path.getsize(filename) / (1024 * 1024)
-    dur = int(duration(filename))
-    start_time = asyncio.get_event_loop().time()
+    file_size = get_file_size_mb(filename)
 
     try:
-        if file_size_mb <= 2000:
-            async with upload_lock:
-                await m.reply_video(
-                    filename,
-                    caption=cc,
-                    supports_streaming=True,
-                    height=720,
-                    width=1280,
-                    thumb=thumbnail,
-                    duration=dur,
-                    progress_args=(reply, start_time)
-                )
+        if file_size <= MAX_FILE_SIZE_MB:
+            await upload_video(bot, m, filename, cc, thumbnail, reply)
         else:
-            # Split into 2 parts using ffmpeg (already implemented earlier)
             part1 = filename.replace(".mp4", "_part1.mp4")
             part2 = filename.replace(".mp4", "_part2.mp4")
             split_video(filename, part1, part2)
 
             for i, part in enumerate([part1, part2], 1):
-                caption_part = f"{cc}\n\nPart {i}/2"
-                async with upload_lock:
-                    await m.reply_video(
-                        part,
-                        caption=caption_part,
-                        supports_streaming=True,
-                        height=720,
-                        width=1280,
-                        thumb=thumbnail,
-                        duration=dur,
-                        progress_args=(reply, start_time)
-                    )
+                caption = f"{cc}\n\nPart {i}/2"
+                await upload_video(bot, m, part, caption, thumbnail, reply)
                 os.remove(part)
 
     except Exception as e:
-        await m.reply_text(f"❌ Upload failed:\n`{str(e)}`")
+        async with upload_lock:
+            await m.reply_text(f"❌ Upload failed:\n`{str(e)}`")
 
     # Clean up
     for f in [filename, f"{filename}.jpg"]:
         if os.path.exists(f):
             os.remove(f)
+
     await reply.delete()
                        
