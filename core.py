@@ -354,6 +354,7 @@ MAX_FILE_SIZE_MB = 2000
 def get_file_size_mb(file_path):
     return os.path.getsize(file_path) / (1024 * 1024)
 
+
 def split_video(input_file, part1, part2):
     duration_cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{input_file}"'
     total_duration = float(subprocess.check_output(duration_cmd, shell=True).decode().strip())
