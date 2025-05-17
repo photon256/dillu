@@ -403,6 +403,7 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
     try:
         if file_size <= MAX_FILE_SIZE_MB:
             await upload_video(bot, m, filename, cc, thumbnail, reply)
+            return msg
         else:
             part1 = filename.replace(".mp4", "_part1.mp4")
             part2 = filename.replace(".mp4", "_part2.mp4")
@@ -421,6 +422,6 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
     for f in [filename, f"{filename}.jpg"]:
         if os.path.exists(f):
             os.remove(f)
-
+    return msg
     await reply.delete()
                        
