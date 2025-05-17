@@ -57,6 +57,7 @@ async def cw_pdf_store(bot, m, url, cc1, name, helper):
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
+                caption = cc1,
                 from_chat_id=DUMP_CHAT,
                 message_id=existing["dump_msg_id"]
             )
@@ -74,10 +75,11 @@ async def cw_pdf_store(bot, m, url, cc1, name, helper):
         file_hash = await compute_sha256(filename)
         hash_entry = collection_doc.find_one({"hash": file_hash})
         if hash_entry:
-            await prog.delete()
+            await prog.delete(True)
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
+                caption = cc1,
                 from_chat_id=DUMP_CHAT,
                 message_id=hash_entry["dump_msg_id"]
             )
@@ -88,7 +90,7 @@ async def cw_pdf_store(bot, m, url, cc1, name, helper):
         
 
         # 5. Send document to user
-        await prog.delete()
+        await prog.delete(True)
         sent_msg = await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
@@ -144,10 +146,11 @@ async def encrypted_video(bot, m, url, key, cmd, name, raw_text2, cc, thumb, hel
         file_hash = await compute_sha256(filename)
         hash_entry = collection.find_one({"hash": file_hash})
         if hash_entry:
-            await prog.delete()
+            await prog.delete(True)
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
+                caption = cc,
                 from_chat_id=DUMP_CHAT,
                 message_id=hash_entry["dump_msg_id"]
             )
@@ -156,7 +159,7 @@ async def encrypted_video(bot, m, url, key, cmd, name, raw_text2, cc, thumb, hel
             return
 
         # Step 5: Send to user
-        await prog.delete()
+        await prog.delete(True)
         sent_msg = await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
@@ -210,7 +213,7 @@ async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper
         file_hash = await compute_sha256(filename)
         hash_entry = collection.find_one({"hash": file_hash})
         if hash_entry:
-            await prog.delete()
+            await prog.delete(True)
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
@@ -219,10 +222,11 @@ async def download_and_send(bot, m, url, cmd, name, raw_text2, cc, thumb, helper
             )
             os.remove(filename)
             print(f"✅ File '{name}' matched by hash. Forwarded from dump.")
+            await prog.delete(True)
             return
 
         # Step 5: Send to user
-        await prog.delete()
+        await prog.delete(True)
         sent_msg = await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
@@ -259,6 +263,7 @@ async def encrypted_pdf_store(bot, m, url, cc1, name, helper, key):
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
+                caption = cc1,
                 from_chat_id=DUMP_CHAT,
                 message_id=existing["dump_msg_id"]
             )
@@ -280,7 +285,7 @@ async def encrypted_pdf_store(bot, m, url, cc1, name, helper, key):
         file_hash = compute_sha256(filename)
         hash_entry = collection_doc.find_one({"hash": file_hash})
         if hash_entry:
-            await prog.delete()
+            await prog.delete(True)
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
@@ -289,10 +294,11 @@ async def encrypted_pdf_store(bot, m, url, cc1, name, helper, key):
             )
             os.remove(filename)
             print(f"✅ Document '{name}' matched by hash. Forwarded from dump.")
+            await prog.delete(True)
             return
 
         # 5. Send document to user
-        await prog.delete()
+        await prog.delete(True)
         sent_msg = await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
@@ -328,10 +334,12 @@ async def pdf_store(bot, m, url, cc1, name):
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
+                caption = cc,
                 from_chat_id=DUMP_CHAT,
                 message_id=existing["dump_msg_id"]
             )
             print(f"✅ Document '{name}' matched by name. Forwarded from dump.")
+            
             return
 
         # 2. Show download message
@@ -347,20 +355,22 @@ async def pdf_store(bot, m, url, cc1, name):
         file_hash = await compute_sha256(filename)
         hash_entry = collection.find_one({"hash": file_hash})
         if hash_entry:
-            await prog.delete()
+            await prog.delete(True)
             await bot.get_chat(DUMP_CHAT)
             await bot.copy_message(
                 chat_id=m.chat.id,
                 from_chat_id=DUMP_CHAT,
+                caption = cc1,
                 message_id=hash_entry["dump_msg_id"]
             )
             os.remove(filename)
             print(f"✅ File '{name}' matched by hash. Forwarded from dump.")
+            await prog.delete(True)
             return
         
 
         # 5. Send document to user
-        await prog.delete()
+        await prog.delete(True)
         sent_msg = await bot.send_document(chat_id=m.chat.id, document= filename, caption=cc1)
         if sent_msg is None:
             await m.reply_text("❌ Upload failed.")
@@ -371,6 +381,7 @@ async def pdf_store(bot, m, url, cc1, name):
         await bot.get_chat(DUMP_CHAT)
         dump_msg = await bot.copy_message(
             chat_id=DUMP_CHAT,
+            caption = cc1,
             from_chat_id=m.chat.id,
             message_id=sent_msg.id
         )
