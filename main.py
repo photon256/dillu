@@ -270,9 +270,10 @@ async def encrypted_pdf_store(bot, m, url, cc1, name, helper, key):
         prog = await m.reply_text(show)
 
         # 3. Download document
-        filename = await helper.download_file(url, name)
-        copy = helper.decrypt_file(file_path, key)
         
+        file_path = await helper.download_file(url, name)
+        copy = helper.decrypt_file(file_path, key)
+        filename = file_path
         
 
         # 4. Compute hash
